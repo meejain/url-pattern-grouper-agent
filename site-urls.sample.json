@@ -1,0 +1,15 @@
+
+[
+  {
+    "url": "https://www.thoughtworks.com/en-us",
+    "source": "SITEMAPS",
+    "targetPath": "/en-us",
+    "id": "c4a65faeccba2542a31510c06067360bc20e6432"
+  },
+  {
+    "url": "https://www.thoughtworks.com/en-us/clients",
+    "source": "SITEMAPS",
+    "targetPath": "/en-us/clients",
+    "id": "2f2492d44beb797c32b070462c4706152a175cf0"
+  }
+]
