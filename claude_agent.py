@@ -120,11 +120,47 @@ df = df.sort_values('url', ascending=True)
 # Then sort by group index (1,2,3...) and maintain URL order
 df = df.sort_values(['group_index', 'url'], ascending=[True, True])
 
-# Remove helper column
-df = df[['url', 'group']]
+# Function to extract locale from URL
+def extract_locale(url):
+    # Remove protocol and www if present
+    url = url.replace('https://', '').replace('http://', '').replace('www.', '')
+    
+    # Split into domain and path
+    parts = url.split('/', 1)
+    if len(parts) < 2:
+        return ''
+    
+    path = parts[1].strip('/')
+    if not path:
+        return ''
+    
+    # Check for 2-letter code at start of path
+    # It should be either followed by a slash or a dot
+    segments = path.split('/')
+    first_segment = segments[0]
+    
+    # Check if path is exactly 2 letters (URL ends with locale)
+    if len(path) == 2 and path.isalpha():
+        return path.lower()
+    
+    # Check if first segment is exactly 2 letters and is followed by / or .
+    if len(first_segment) == 2 and first_segment.isalpha():
+        return first_segment.lower()
+    
+    # Also check if it's "xx.html" or similar
+    if '.' in first_segment:
+        possible_locale = first_segment.split('.')[0]
+        if len(possible_locale) == 2 and possible_locale.isalpha():
+            # Only count as locale if nothing follows except .html
+            if first_segment == f"{possible_locale}.html" and len(segments) == 1:
+                return possible_locale.lower()
+    
+    # Default to "en" if no other locale found
+    return 'en'
 
-# Final dataframe with just url and group
-df = df[['url', 'group']]
+# Add locale column and remove helper column
+df['locale'] = df['url'].apply(extract_locale)
+df = df[['url', 'group', 'locale']]
 
 # Save the result
 os.makedirs('basic_scoping', exist_ok=True)
