@@ -111,9 +111,9 @@ df = urls_df[['url', 'group']].copy()
 # First sort all URLs alphabetically (A to Z)
 df = df.sort_values('url', ascending=True)
 
-# Then sort by group to keep grouped URLs together (empty groups at end)
-# But maintain alphabetical order within each group
-df = df.sort_values(['group', 'url'], ascending=[False, True], na_position='last')
+# Then sort by group (Group 1, 2, 3..., then ungrouped)
+# Maintain alphabetical order within each group
+df = df.sort_values(['group', 'url'], ascending=[True, True], na_position='last')
 
 # Final dataframe with just url and group
 df = df[['url', 'group']]
