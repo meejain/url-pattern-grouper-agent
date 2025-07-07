@@ -11,18 +11,23 @@ with open("site-urls.json") as f:
     raw_data = json.load(f)
     urls = raw_data.get("urls", [])
 
-prompt = """Analyze URLs to find common path patterns and create two sections in the DataFrame:
-1. Common Patterns (5 or more URLs):
-   - Extract the common URL pattern
-   - Count total URLs in that pattern
-   - List all URLs that match the pattern
-2. Unique/Unmatched URLs:
-   - Create a separate group called 'unique_patterns'
-   - Include all URLs that don't fit into any common pattern
-   - List these URLs with their full paths
+prompt = """Process the URLs with these specific requirements:
 
-Create a DataFrame with columns: 'pattern', 'count', 'urls', 'is_common_pattern'.
-Sort common patterns by count in descending order.
+1. Create a DataFrame with only two columns:
+   - 'url': The complete URL
+   - 'group': The group name (e.g., 'Group 1', 'Group 2', etc.) or empty string if no group assigned
+
+2. Grouping Rules:
+   - Compare complete URL paths (all segments until the end)
+   - If 5 or more URLs share the exact same path pattern, assign them to a group
+   - Name groups sequentially: 'Group 1', 'Group 2', etc.
+   - URLs without a common pattern (< 5 matches) should have an empty string in the group column
+
+3. Sorting Rules:
+   - Homepage (shortest URL) should be at the top
+   - Then sort by group (grouped URLs together)
+   - Within each group and for ungrouped URLs, maintain alphabetical sorting
+
 Export to Excel with clear formatting."""
 
 # Build system prompt
@@ -35,7 +40,10 @@ You are a helpful Python agent. The variable `urls` is a list of dictionaries wi
 
 User instruction: {prompt}
 
-IMPORTANT: Respond ONLY with the raw Python code, without any explanations, markdown formatting, or code block markers. The code should process the list `urls`, store the result in a DataFrame `df`, and save an Excel file named 'grouped_urls.xlsx'.
+IMPORTANT: Respond ONLY with the raw Python code, without any explanations, markdown formatting, or code block markers. The code should:
+1. Process the list `urls`
+2. Create a DataFrame `df` with exactly two columns: 'url' and 'group'
+3. Save the sorted DataFrame to 'grouped_urls.xlsx'
 """
 
 response = client.messages.create(
