@@ -108,11 +108,12 @@ urls_df['group'] = urls_df['pattern'].map(lambda x: group_mapping.get(x, ''))
 # Create final dataframe with just url and group
 df = urls_df[['url', 'group']].copy()
 
-# First sort all URLs alphabetically
-df = df.sort_values('url')
+# First sort all URLs alphabetically (A to Z)
+df = df.sort_values('url', ascending=True)
 
 # Then sort by group to keep grouped URLs together (empty groups at end)
-df = df.sort_values('group', ascending=False, na_position='last')
+# But maintain alphabetical order within each group
+df = df.sort_values(['group', 'url'], ascending=[False, True], na_position='last')
 
 # Final dataframe with just url and group
 df = df[['url', 'group']]
