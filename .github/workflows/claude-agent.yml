@@ -1,0 +1,30 @@
+name: Claude-powered URL Grouper
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: 'Natural language instruction for Claude'
+        required: true
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install anthropic pandas openpyxl
+
+      - name: Run Claude agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PROMPT: ${{ github.event.inputs.prompt }}
+        run: python claude_agent.py
