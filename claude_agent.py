@@ -39,7 +39,7 @@ Respond ONLY with Python code that processes the list `urls`, stores the result 
 """
 
 response = client.messages.create(
-    model="claude-3-sonnet-20240229",
+    model="claude-3-haiku-20240307",
     max_tokens=1024,
     temperature=0,
     messages=[{"role": "user", "content": full_context}]
