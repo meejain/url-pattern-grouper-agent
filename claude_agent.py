@@ -64,14 +64,18 @@ from urllib.parse import urlparse
 # Create initial dataframe
 urls_df = pd.DataFrame(urls)
 
-# Extract paths and create patterns (excluding protocol and domain)
-def get_path_pattern(url):
+# Function to get path segments for grouping
+def get_path_segments(url):
     parsed = urlparse(url)
     path = parsed.path.strip('/')
+    segments = path.split('/')
+    if len(segments) > 1:
+        # Return all segments except the last one (file name)
+        return '/'.join(segments[:-1])
     return path if path else ''
 
 # Create patterns and count them
-urls_df['pattern'] = urls_df['url'].apply(get_path_pattern)
+urls_df['pattern'] = urls_df['url'].apply(get_path_segments)
 pattern_counts = urls_df['pattern'].value_counts()
 
 # Create groups for patterns with 5 or more occurrences
@@ -88,13 +92,11 @@ for pattern, count in pattern_counts.items():
 urls_df['group'] = urls_df['pattern'].map(lambda x: group_mapping.get(x, ''))
 
 # Create final dataframe with just url and group
-df = urls_df[['url', 'group']].copy()  # Create explicit copy
+df = urls_df[['url', 'group']].copy()
 
-# Add URL length for sorting
+# Sort by group (non-empty groups first) and URL length
 df['url_length'] = df['url'].str.len()
-
-# Sort by URL length (shortest first)
-df = df.sort_index(key=lambda x: df.loc[x, 'url_length'])
+df = df.sort_values(['group', 'url_length'], ascending=[False, True])
 
 # Remove helper column
 df = df[['url', 'group']]
