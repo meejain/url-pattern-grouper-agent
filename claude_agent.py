@@ -58,22 +58,46 @@ IMPORTANT: Respond ONLY with the raw Python code, without any explanations, mark
 3. Save the sorted DataFrame to 'grouped_urls.xlsx'
 """
 
-response = client.messages.create(
-    model="claude-3-haiku-20240307",
-    max_tokens=1024,
-    temperature=0,
-    messages=[{"role": "user", "content": full_context}]
-)
+# Direct implementation instead of using Claude for code generation
+from urllib.parse import urlparse
 
-code = next(block.text for block in response.content if block.type == "text").strip()
-print("Claude's generated code:\n", code)
+# Create initial dataframe
+urls_df = pd.DataFrame(urls)
 
-# Execute Claude's returned code
-exec(code)
+# Extract paths and create patterns (excluding protocol and domain)
+def get_path_pattern(url):
+    parsed = urlparse(url)
+    path = parsed.path.strip('/')
+    return path if path else ''
 
-# Save result if df exists
-local_vars = locals()
-if 'df' in local_vars:
-    os.makedirs('basic_scoping', exist_ok=True)
-    local_vars['df'].to_excel("basic_scoping/grouped_urls.xlsx", index=False)
-    print("✅ Excel exported: basic_scoping/grouped_urls.xlsx")
+# Create patterns and count them
+urls_df['pattern'] = urls_df['url'].apply(get_path_pattern)
+pattern_counts = urls_df['pattern'].value_counts()
+
+# Create groups for patterns with 5 or more occurrences
+group_mapping = {}
+current_group = 1
+for pattern, count in pattern_counts.items():
+    if count >= 5:
+        group_mapping[pattern] = f'Group {current_group}'
+        current_group += 1
+    else:
+        group_mapping[pattern] = ''
+
+# Assign groups to URLs
+urls_df['group'] = urls_df['pattern'].map(lambda x: group_mapping.get(x, ''))
+
+# Create final dataframe with just url and group
+df = urls_df[['url', 'group']]
+
+# Custom sorting:
+# 1. Homepage (shortest URL) at top
+# 2. Grouped URLs together
+df['url_length'] = df['url'].str.len()
+df = df.iloc[df['url_length'].argsort()]
+df = df[['url', 'group']]  # Remove helper column
+
+# Save the result
+os.makedirs('basic_scoping', exist_ok=True)
+df.to_excel("basic_scoping/grouped_urls.xlsx", index=False)
+print("✅ Excel exported: basic_scoping/grouped_urls.xlsx")
