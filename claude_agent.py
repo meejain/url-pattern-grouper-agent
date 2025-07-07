@@ -35,7 +35,7 @@ You are a helpful Python agent. The variable `urls` is a list of dictionaries wi
 
 User instruction: {prompt}
 
-Respond ONLY with Python code that processes the list `urls`, stores the result in a DataFrame `df`, and optionally saves an Excel file named 'grouped_urls.xlsx'.
+IMPORTANT: Respond ONLY with the raw Python code, without any explanations, markdown formatting, or code block markers. The code should process the list `urls`, store the result in a DataFrame `df`, and save an Excel file named 'grouped_urls.xlsx'.
 """
 
 response = client.messages.create(
@@ -45,7 +45,7 @@ response = client.messages.create(
     messages=[{"role": "user", "content": full_context}]
 )
 
-code = next(block.text for block in response.content if block.type == "text").strip("```python").strip("```").strip()
+code = next(block.text for block in response.content if block.type == "text").strip()
 print("Claude's generated code:\n", code)
 
 # Execute Claude's returned code
