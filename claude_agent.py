@@ -54,5 +54,6 @@ exec(code)
 # Save result if df exists
 local_vars = locals()
 if 'df' in local_vars:
-    local_vars['df'].to_excel("grouped_urls.xlsx", index=False)
-    print("✅ Excel exported: grouped_urls.xlsx")
+    os.makedirs('basic_scoping', exist_ok=True)
+    local_vars['df'].to_excel("basic_scoping/grouped_urls.xlsx", index=False)
+    print("✅ Excel exported: basic_scoping/grouped_urls.xlsx")

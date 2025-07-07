@@ -22,4 +22,15 @@ jobs:
       - name: Run Claude agent
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python claude_agent.py
+        run: |
+          python claude_agent.py
+          mkdir -p basic_scoping
+          mv grouped_urls.xlsx basic_scoping/
+
+      - name: Commit Excel file
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add basic_scoping/grouped_urls.xlsx
+          git commit -m "Update URL grouping analysis [skip ci]"
+          git push
