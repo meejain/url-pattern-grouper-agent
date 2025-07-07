@@ -93,11 +93,14 @@ for pattern, count in pattern_counts.items():
 
 # Create groups for patterns with 5 or more occurrences
 group_mapping = {}
+group_index_mapping = {}  # For numeric sorting
 current_group = 1
 for pattern, count in pattern_counts.items():
     if count >= 5:
         print(f"\nCreating Group {current_group} for pattern: {pattern}")
-        group_mapping[pattern] = f'Group {current_group}'
+        group_name = f'Group {current_group}'
+        group_mapping[pattern] = group_name
+        group_index_mapping[group_name] = current_group
         current_group += 1
     else:
         group_mapping[pattern] = ''
@@ -105,15 +108,20 @@ for pattern, count in pattern_counts.items():
 # Assign groups to URLs
 urls_df['group'] = urls_df['pattern'].map(lambda x: group_mapping.get(x, ''))
 
-# Create final dataframe with just url and group
+# Create final dataframe with url and group
 df = urls_df[['url', 'group']].copy()
 
-# First sort all URLs alphabetically (A to Z)
+# Add numeric group index for sorting (999999 for empty groups to put them at end)
+df['group_index'] = df['group'].map(lambda x: group_index_mapping.get(x, 999999))
+
+# First sort URLs alphabetically within each group
 df = df.sort_values('url', ascending=True)
 
-# Then sort by group (Group 1, 2, 3..., then ungrouped)
-# Maintain alphabetical order within each group
-df = df.sort_values(['group', 'url'], ascending=[True, True], na_position='last')
+# Then sort by group index (1,2,3...) and maintain URL order
+df = df.sort_values(['group_index', 'url'], ascending=[True, True])
+
+# Remove helper column
+df = df[['url', 'group']]
 
 # Final dataframe with just url and group
 df = df[['url', 'group']]
