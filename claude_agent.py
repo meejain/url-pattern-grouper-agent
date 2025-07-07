@@ -88,14 +88,16 @@ for pattern, count in pattern_counts.items():
 urls_df['group'] = urls_df['pattern'].map(lambda x: group_mapping.get(x, ''))
 
 # Create final dataframe with just url and group
-df = urls_df[['url', 'group']]
+df = urls_df[['url', 'group']].copy()  # Create explicit copy
 
-# Custom sorting:
-# 1. Homepage (shortest URL) at top
-# 2. Grouped URLs together
+# Add URL length for sorting
 df['url_length'] = df['url'].str.len()
-df = df.iloc[df['url_length'].argsort()]
-df = df[['url', 'group']]  # Remove helper column
+
+# Sort by URL length (shortest first)
+df = df.sort_index(key=lambda x: df.loc[x, 'url_length'])
+
+# Remove helper column
+df = df[['url', 'group']]
 
 # Save the result
 os.makedirs('basic_scoping', exist_ok=True)
