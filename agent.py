@@ -5,7 +5,7 @@ import os
 
 def main():
     GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-    REPO = "your-username/your-repo"
+    REPO = "meejain/url-pattern-grouper-agent"
     JSON_PATH = "site-urls.json"
 
     download_json_file(GITHUB_TOKEN, REPO, JSON_PATH)
