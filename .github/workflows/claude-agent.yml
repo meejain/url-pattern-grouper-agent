@@ -2,10 +2,6 @@ name: Claude-powered URL Grouper
 
 on:
   workflow_dispatch:
-    inputs:
-      prompt:
-        description: 'Natural language instruction for Claude'
-        required: true
 
 jobs:
   run-agent:
@@ -26,5 +22,4 @@ jobs:
       - name: Run Claude agent
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          PROMPT: ${{ github.event.inputs.prompt }}
         run: python claude_agent.py

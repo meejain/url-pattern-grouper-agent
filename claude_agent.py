@@ -11,7 +11,19 @@ with open("site-urls.json") as f:
     raw_data = json.load(f)
     urls = raw_data.get("urls", [])
 
-prompt = os.getenv("PROMPT", "Group URLs by first 2 path segments and assign group if ≥5.")
+prompt = """Analyze URLs to find common path patterns and create two sections in the DataFrame:
+1. Common Patterns (5 or more URLs):
+   - Extract the common URL pattern
+   - Count total URLs in that pattern
+   - List all URLs that match the pattern
+2. Unique/Unmatched URLs:
+   - Create a separate group called 'unique_patterns'
+   - Include all URLs that don't fit into any common pattern
+   - List these URLs with their full paths
+
+Create a DataFrame with columns: 'pattern', 'count', 'urls', 'is_common_pattern'.
+Sort common patterns by count in descending order.
+Export to Excel with clear formatting."""
 
 # Build system prompt
 full_context = f"""
@@ -27,7 +39,7 @@ Respond ONLY with Python code that processes the list `urls`, stores the result 
 """
 
 response = client.messages.create(
-    model="claude-3-opus-20240229",
+    model="claude-3-sonnet-20240229",
     max_tokens=1024,
     temperature=0,
     messages=[{"role": "user", "content": full_context}]
