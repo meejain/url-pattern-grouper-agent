@@ -17,16 +17,28 @@ prompt = """Process the URLs with these specific requirements:
    - 'url': The complete URL
    - 'group': The group name (e.g., 'Group 1', 'Group 2', etc.) or empty string if no group assigned
 
-2. Grouping Rules:
-   - Compare complete URL paths (all segments until the end)
-   - If 5 or more URLs share the exact same path pattern, assign them to a group
-   - Name groups sequentially: 'Group 1', 'Group 2', etc.
-   - URLs without a common pattern (< 5 matches) should have an empty string in the group column
+2. Pattern Matching and Grouping Rules:
+   - Split each URL into path segments (parts between slashes)
+   - For each URL, create its pattern by joining all its path segments
+   - Count how many URLs share each pattern
+   - When 5 or more URLs have identical path segments (ignoring protocol and domain):
+     * Create a new group named 'Group N' (where N increments for each group)
+     * Assign all matching URLs to this group
+   - URLs that don't have 5 or more matches should have an empty string as their group
 
 3. Sorting Rules:
-   - Homepage (shortest URL) should be at the top
-   - Then sort by group (grouped URLs together)
-   - Within each group and for ungrouped URLs, maintain alphabetical sorting
+   - Homepage (shortest URL) at the top
+   - Then group all URLs with assigned groups together
+   - Within each group and for ungrouped URLs, sort alphabetically
+
+Example:
+If these URLs share identical path segments:
+  domain.com/api/v1/users/list
+  domain.com/api/v1/users/list?page=1
+  domain.com/api/v1/users/list?page=2
+  domain.com/api/v1/users/list?page=3
+  domain.com/api/v1/users/list?page=4
+They should be grouped together as they share the pattern 'api/v1/users/list'
 
 Export to Excel with clear formatting."""
 
