@@ -120,6 +120,9 @@ df = df.sort_values('url', ascending=True)
 # Then sort by group index (1,2,3...) and maintain URL order
 df = df.sort_values(['group_index', 'url'], ascending=[True, True])
 
+# Remove helper column
+df = df[['url', 'group']]
+
 # Function to extract locale from URL
 def extract_locale(url):
     # Remove protocol and www if present
@@ -158,9 +161,8 @@ def extract_locale(url):
     # Default to "en" if no other locale found
     return 'en'
 
-# Add locale column and remove helper column
+# Add locale column after sorting is complete
 df['locale'] = df['url'].apply(extract_locale)
-df = df[['url', 'group', 'locale']]
 
 # Save the result
 os.makedirs('basic_scoping', exist_ok=True)
