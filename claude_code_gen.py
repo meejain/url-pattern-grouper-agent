@@ -34,7 +34,13 @@ IMPORTANT: Respond ONLY with the raw Python code, without any explanations, mark
         ]
     )
     
-    return message.content
+    # Extract the actual code content from the message
+    if isinstance(message.content, list):
+        # If content is a list, join all elements
+        return '\n'.join(str(item) for item in message.content)
+    else:
+        # If content is already a string, return it directly
+        return str(message.content)
 
 def save_generated_code(code, file_path):
     """Save generated code to a file."""
