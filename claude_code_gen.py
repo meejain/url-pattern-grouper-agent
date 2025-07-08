@@ -21,7 +21,7 @@ You are a helpful Python agent. {context_vars_str}
 
 User instruction: {prompt}
 
-IMPORTANT: Respond ONLY with the raw Python code, without any explanations, markdown formatting, or code block markers. The code should:
+IMPORTANT: Respond ONLY with the raw Python code, without any explanations, markdown formatting, code block markers, or metadata. The code should:
 1. Process the list `urls`
 2. Create a DataFrame `df` with exactly three columns: 'url', 'group', and 'locale'
 3. Save the sorted DataFrame to Excel in 'basic_scoping' directory
@@ -39,12 +39,21 @@ The code should define a function called process_urls(data) that takes the JSON 
     )
     
     # Extract the actual code content from the message
-    if isinstance(message.content, list):
-        # If content is a list, join all elements
-        return '\n'.join(str(item) for item in message.content)
-    else:
-        # If content is already a string, return it directly
-        return str(message.content)
+    content = message.content
+    if isinstance(content, list):
+        content = '\n'.join(str(item) for item in content)
+    
+    # If the content contains TextBlock metadata, extract just the code
+    if "TextBlock" in content:
+        import re
+        # Extract the actual code from the text parameter
+        match = re.search(r'text="([^"]+)"', content)
+        if match:
+            content = match.group(1)
+            # Unescape any escaped characters
+            content = content.encode().decode('unicode_escape')
+    
+    return content
 
 def save_generated_code(code, file_path):
     """Save generated code to a file."""
