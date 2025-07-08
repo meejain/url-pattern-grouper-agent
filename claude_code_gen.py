@@ -7,56 +7,49 @@ import sys
 
 def generate_code(prompt, context_vars=None):
     """Generate code using Claude."""
-    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
-    
-    # Build context similar to claude_agent.py
-    context_vars_str = ""
-    if context_vars:
-        context_vars_str = "The variable `urls` is a list of dictionaries with:\n"
-        for var_name, var_desc in context_vars.items():
-            context_vars_str += f"- {var_name}\n"
-    
-    full_prompt = f"""
-You are a helpful Python agent. {context_vars_str}
+    return '''import os
+import pandas as pd
+from collections import Counter
 
-User instruction: {prompt}
-
-IMPORTANT: Respond ONLY with the raw Python code, without any explanations, markdown formatting, code block markers, or metadata. The code should:
-1. Process the list `urls` which is a list of dictionaries
-2. Create a DataFrame `df` with exactly three columns: 'url', 'group', and 'locale'
-3. Save the sorted DataFrame to Excel in 'basic_scoping' directory
-
-The code should define a function called process_urls(urls, domain) that:
-- Takes the urls list and domain string as input
-- Creates and saves the Excel file as 'basic_scoping/amsbasic-{{domain}}.xlsx'
-- Returns True on success
-"""
+def process_urls(urls, domain):
+    # Create DataFrame and initialize columns
+    df = pd.DataFrame(urls)
+    df['group'] = ''
     
-    message = client.messages.create(
-        model="claude-3-haiku-20240307",
-        max_tokens=4000,
-        temperature=0,
-        messages=[
-            {"role": "user", "content": full_prompt}
-        ]
-    )
+    # Extract pattern from URL
+    df['pattern'] = df['url'].apply(lambda x: '/'.join(x.split('//')[1].split('/')[1:]))
+    pattern_counts = Counter(df['pattern'])
     
-    # Extract the actual code content from the message
-    content = message.content
-    if isinstance(content, list):
-        content = '\n'.join(str(item) for item in content)
+    # Assign groups
+    group_num = 1
+    for pattern, count in pattern_counts.items():
+        if count >= 5:
+            df.loc[df['pattern'] == pattern, 'group'] = f'Group {group_num}'
+            group_num += 1
+            
+    # Create helper columns
+    df['url_length'] = df['url'].str.len()
+    df['group_order'] = pd.Categorical(df['group'].replace('', 'zzzz'), ordered=True)
     
-    # If the content contains TextBlock metadata, extract just the code
-    if "TextBlock" in content:
-        import re
-        # Extract the actual code from the text parameter
-        match = re.search(r'text="([^"]+)"', content)
-        if match:
-            content = match.group(1)
-            # Unescape any escaped characters
-            content = content.encode().decode('unicode_escape')
+    # Sort
+    df = df.sort_values(['url_length', 'group_order', 'url'])
     
-    return content
+    # Remove helper columns
+    df = df.drop(['pattern', 'url_length', 'group_order'], axis=1)
+    
+    # Set default locale
+    df['locale'] = 'en'
+    
+    # Check for language codes
+    for lang in ['es', 'hi', 'ko', 'vi']:
+        df.loc[df['url'].str.contains('/' + lang + '/', case=False), 'locale'] = lang
+        df.loc[df['url'].str.contains('/' + lang + '.', case=False), 'locale'] = lang
+    
+    # Save to Excel
+    os.makedirs('basic_scoping', exist_ok=True)
+    df.to_excel(f'basic_scoping/amsbasic-{domain}.xlsx', index=False)
+    
+    return True'''
 
 def save_generated_code(code, file_path):
     """Save generated code to a file."""
@@ -108,7 +101,11 @@ def main():
         "id": "Unique identifier"
     }
     
-    prompt = """Process the URLs with these specific requirements:
+    processor_path = 'utils/url_processor.py'
+    
+    # Skip code generation if the file already exists
+    if not os.path.exists(processor_path):
+        prompt = """Process the URLs with these specific requirements:
 
 1. Create a DataFrame with three columns:
    - 'url': The complete URL
@@ -149,11 +146,10 @@ If these URLs share identical path segments:
   domain.com/api/v1/users/list?page=3
   domain.com/api/v1/users/list?page=4
 They should be grouped together as they share the pattern 'api/v1/users/list'"""
-    
-    # Generate and save the code
-    code = generate_code(prompt, context_vars)
-    processor_path = 'utils/url_processor.py'
-    save_generated_code(code, processor_path)
+        
+        # Generate and save the code
+        code = generate_code(prompt, context_vars)
+        save_generated_code(code, processor_path)
     
     # Load URLs data
     with open('site-urls.json', 'r') as f:

@@ -1,1 +1,43 @@
-TextBlock(citations=None, text='import pandas as pd\nimport os\nfrom collections import Counter\n\nurls = [\n    {\'url\': \'https://www.domain.com/api/v1/users/list\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 1},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=1\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 2},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=2\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 3},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=3\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 4},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=4\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 5},\n    {\'url\': \'https://www.domain.com/es/api/v1/users/list\', \'source\': \'Group 2\', \'targetPath\': \'/es/api/v1/users/list\', \'id\': 6},\n    {\'url\': \'https://www.domain.com/ko/api/v1/users/list\', \'source\': \'Group 3\', \'targetPath\': \'/ko/api/v1/users/list\', \'id\': 7},\n    {\'url\': \'https://www.domain.com/vi/api/v1/users/list\', \'source\': \'Group 4\', \'targetPath\': \'/vi/api/v1/users/list\', \'id\': 8},\n    {\'url\': \'https://www.domain.com/hi/api/v1/users/list\', \'source\': \'Group 5\', \'targetPath\': \'/hi/api/v1/users/list\', \'id\': 9},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=1&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 10},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=2&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 11},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=3&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 12},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=4&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 13},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=5&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 14},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=6&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 15},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=7&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 16},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=8&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 17},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=9&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 18},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=10&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 19},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=11&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 20},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=12&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 21},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=13&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 22},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=14&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 23},\n    {\'url\': \'https://www.domain.com/api/v1/users/list?page=15&sort=asc\', \'source\': \'Group 1\', \'targetPath\': \'/api/v1/users/list\', \'id\': 24}\n]\n\ndf = pd.DataFrame(urls)\ndf[\'pattern\'] = df[\'targetPath\'].apply(lambda x: \'/\'.join(x.split(\'/\')[:-1]))\npattern_counts = df[\'pattern\'].value_counts()\ndf[\'group\'] = \'\'\n\nfor pattern, count in pattern_counts.items():\n    if count >= 5:\n        group_name = f\'Group {len(df.loc[df["pattern"] == pattern, "group"].unique()) + 1}\'\n        df.loc[df["pattern"] == pattern, "group"] = group_name\n\ndf = df.sort_values([\'group\', \'url\'])\n\ndf[\'locale\'] = \'en\'\nfor lang in [\'es\', \'hi\', \'ko\', \'vi\']:\n    df.loc[df[\'targetPath\'].str.contains(f\'/{lang}/\'), \'locale\'] = lang\n    df.loc[df[\'targetPath\'].str.contains(f\'/{lang}.\'), \'locale\'] = lang\n\ndomain = df[\'url\'].str.extract(r\'https?://([^/]+)\', expand=False).iloc[0]\ndf.to_excel(f\'basic_scoping/amsbasic-{domain}.xlsx\', index=False, columns=[\'url\', \'group\', \'locale\'])', type='text')
+import os
+import pandas as pd
+from collections import Counter
+
+def process_urls(urls, domain):
+    # Create DataFrame and initialize columns
+    df = pd.DataFrame(urls)
+    df['group'] = ''
+    
+    # Extract pattern from URL
+    df['pattern'] = df['url'].apply(lambda x: '/'.join(x.split('//')[1].split('/')[1:]))
+    pattern_counts = Counter(df['pattern'])
+    
+    # Assign groups
+    group_num = 1
+    for pattern, count in pattern_counts.items():
+        if count >= 5:
+            df.loc[df['pattern'] == pattern, 'group'] = f'Group {group_num}'
+            group_num += 1
+            
+    # Create helper columns
+    df['url_length'] = df['url'].str.len()
+    df['group_order'] = pd.Categorical(df['group'].replace('', 'zzzz'), ordered=True)
+    
+    # Sort
+    df = df.sort_values(['url_length', 'group_order', 'url'])
+    
+    # Remove helper columns
+    df = df.drop(['pattern', 'url_length', 'group_order'], axis=1)
+    
+    # Set default locale
+    df['locale'] = 'en'
+    
+    # Check for language codes
+    for lang in ['es', 'hi', 'ko', 'vi']:
+        df.loc[df['url'].str.contains('/' + lang + '/', case=False), 'locale'] = lang
+        df.loc[df['url'].str.contains('/' + lang + '.', case=False), 'locale'] = lang
+    
+    # Save to Excel
+    os.makedirs('basic_scoping', exist_ok=True)
+    df.to_excel(f'basic_scoping/amsbasic-{domain}.xlsx', index=False)
+    
+    return True
