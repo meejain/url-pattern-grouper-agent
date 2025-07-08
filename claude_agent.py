@@ -13,9 +13,10 @@ with open("site-urls.json") as f:
 
 prompt = """Process the URLs with these specific requirements:
 
-1. Create a DataFrame with only two columns:
+1. Create a DataFrame with three columns:
    - 'url': The complete URL
    - 'group': The group name (e.g., 'Group 1', 'Group 2', etc.) or empty string if no group assigned
+   - 'locale': The detected language code (e.g., 'en', 'es', 'ko', 'vi', 'hi') with 'en' as default
 
 2. Pattern Matching and Grouping Rules:
    - Split each URL into path segments (parts between slashes)
@@ -30,6 +31,13 @@ prompt = """Process the URLs with these specific requirements:
    - Homepage (shortest URL) at the top
    - Then group all URLs with assigned groups together
    - Within each group and for ungrouped URLs, sort alphabetically
+
+4. Locale Detection Rules:
+   - Check for 2-letter language codes in the URL path
+   - Look for codes at the start of path or as standalone segments
+   - Support formats like '/es/', '/ko.html', or '/vi'
+   - Default to 'en' if no other locale is detected
+   - Currently supported locales: en, es, hi, ko, vi
 
 Example:
 If these URLs share identical path segments:
