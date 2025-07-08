@@ -22,11 +22,14 @@ You are a helpful Python agent. {context_vars_str}
 User instruction: {prompt}
 
 IMPORTANT: Respond ONLY with the raw Python code, without any explanations, markdown formatting, code block markers, or metadata. The code should:
-1. Process the list `urls`
+1. Process the list `urls` which is a list of dictionaries
 2. Create a DataFrame `df` with exactly three columns: 'url', 'group', and 'locale'
 3. Save the sorted DataFrame to Excel in 'basic_scoping' directory
 
-The code should define a function called process_urls(data) that takes the JSON data as input and returns True on success.
+The code should define a function called process_urls(urls, domain) that:
+- Takes the urls list and domain string as input
+- Creates and saves the Excel file as 'basic_scoping/amsbasic-{domain}.xlsx'
+- Returns True on success
 """
     
     message = client.messages.create(
@@ -85,9 +88,13 @@ def load_and_execute_processor(processor_path, urls_data):
         
     spec.loader.exec_module(module)
     
-    # Execute the processing function with our URLs data
+    # Execute the processing function with just the urls list from the JSON data
     if hasattr(module, 'process_urls'):
-        return module.process_urls(urls_data)
+        # Create basic_scoping directory if it doesn't exist
+        Path('basic_scoping').mkdir(parents=True, exist_ok=True)
+        # Pass only the urls list and the domain from originUrl
+        domain = urls_data.get('originUrl', '').split('//')[-1].split('/')[0]
+        return module.process_urls(urls_data.get('urls', []), domain)
     else:
         print("⚠️ Generated code does not have a process_urls function!")
         return None
