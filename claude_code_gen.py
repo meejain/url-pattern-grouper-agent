@@ -43,11 +43,19 @@ IMPORTANT MODIFICATIONS:
 - Add a 'source' column to the final DataFrame (should be positioned right after the 'url' column)
 - The source data is available in each URL dictionary as 'source' field
 - Final DataFrame should have columns in this order: ['url', 'source', 'group', 'locale']
+- Remove ALL helper columns (like 'group_index', 'pattern', etc.) from the final output
+- Only keep the 4 main columns: url, source, group, locale
 - Keep all other logic exactly the same
+
+CRITICAL FIXES:
+- Use `df['url'].apply(extract_locale)` NOT `df[['url']].apply(extract_locale, axis=1)`
+- The extract_locale function should receive a single URL string, not a DataFrame row
+- Make sure to remove helper columns like 'group_index' before saving to Excel
 
 IMPORTANT: 
 - Use the EXACT same logic from claude_agent.py - don't change the algorithms
 - Just wrap it in a function format and add the source column
+- Make sure to remove all helper columns before saving to Excel
 - Respond ONLY with the raw Python code, no explanations or markdown
 - The function should process the URLs and save to Excel, then return True
 

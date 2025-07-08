@@ -45,7 +45,7 @@ def process_urls(urls, domain):
     # Assign groups to URLs
     urls_df['group'] = urls_df['pattern'].map(lambda x: group_mapping.get(x, ''))
 
-    # Create final dataframe with url, source, group
+    # Create final dataframe with url, source, group, and locale
     df = urls_df[['url', 'source', 'group']].copy()
 
     # Add numeric group index for sorting (999999 for empty groups to put them at end)
@@ -56,6 +56,9 @@ def process_urls(urls, domain):
 
     # Then sort by group index (1,2,3...) and maintain URL order
     df = df.sort_values(['group_index', 'url'], ascending=[True, True])
+
+    # Remove helper column
+    df = df[['url', 'source', 'group']]
 
     # Function to extract locale from URL
     def extract_locale(url):
@@ -95,14 +98,16 @@ def process_urls(urls, domain):
         # Default to "en" if no other locale found
         return 'en'
 
-    # Add locale column after sorting is complete
+    # Add locale column
     df['locale'] = df['url'].apply(extract_locale)
 
     # Get domain name from the originUrl
-    output_filename = f"amsbasic-{domain}.xlsx"
+    domain_name = urlparse(domain).netloc.replace("www.", "").split(".")[0]
+    output_filename = f"amsbasic-{domain_name}.xlsx"
 
     # Save the result
     os.makedirs('basic_scoping', exist_ok=True)
     df.to_excel(f"basic_scoping/{output_filename}", index=False)
     print(f"✅ Excel exported: basic_scoping/{output_filename}")
+
     return True
