@@ -7,49 +7,71 @@ import sys
 
 def generate_code(prompt, context_vars=None):
     """Generate code using Claude."""
-    return '''import os
-import pandas as pd
-from collections import Counter
+    client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+    
+    # Read the working implementation from claude_agent.py
+    with open('claude_agent.py', 'r') as f:
+        claude_agent_code = f.read()
+    
+    # Build context similar to claude_agent.py
+    context_vars_str = ""
+    if context_vars:
+        context_vars_str = "The variable `urls` is a list of dictionaries with:\n"
+        for var_name, var_desc in context_vars.items():
+            context_vars_str += f"- {var_name}\n"
+    
+    full_prompt = f"""
+You are a helpful Python agent. {context_vars_str}
 
-def process_urls(urls, domain):
-    # Create DataFrame and initialize columns
-    df = pd.DataFrame(urls)
-    df['group'] = ''
+I have a working implementation in claude_agent.py that processes URLs correctly. I need you to convert this working code into a proper function format.
+
+Here's the working implementation from claude_agent.py:
+
+{claude_agent_code}
+
+Your task:
+1. Extract the core URL processing logic from the claude_agent.py file
+2. Convert it into a function called `process_urls(urls, domain)` that:
+   - Takes a list of URL dictionaries and domain string as parameters
+   - Returns True on success
+   - Saves the Excel file as 'basic_scoping/amsbasic-{{domain}}.xlsx'
+3. Include all necessary imports at the top
+4. Keep the exact same logic for pattern matching, grouping, sorting, and locale detection
+5. Make sure to handle the input parameters correctly
+
+IMPORTANT: 
+- Use the EXACT same logic from claude_agent.py - don't change the algorithms
+- Just wrap it in a function format
+- Respond ONLY with the raw Python code, no explanations or markdown
+- The function should process the URLs and save to Excel, then return True
+
+User instruction: {prompt}
+"""
     
-    # Extract pattern from URL
-    df['pattern'] = df['url'].apply(lambda x: '/'.join(x.split('//')[1].split('/')[1:]))
-    pattern_counts = Counter(df['pattern'])
+    message = client.messages.create(
+        model="claude-3-haiku-20240307",
+        max_tokens=4000,
+        temperature=0,
+        messages=[
+            {"role": "user", "content": full_prompt}
+        ]
+    )
     
-    # Assign groups
-    group_num = 1
-    for pattern, count in pattern_counts.items():
-        if count >= 5:
-            df.loc[df['pattern'] == pattern, 'group'] = f'Group {group_num}'
-            group_num += 1
-            
-    # Create helper columns
-    df['url_length'] = df['url'].str.len()
-    df['group_order'] = pd.Categorical(df['group'].replace('', 'zzzz'), ordered=True)
+    # Extract the actual code content from the message
+    content = message.content
+    if isinstance(content, list) and len(content) > 0:
+        # Get the first text block
+        content = content[0].text if hasattr(content[0], 'text') else str(content[0])
     
-    # Sort
-    df = df.sort_values(['url_length', 'group_order', 'url'])
+    # Remove markdown code block markers if present
+    if content.startswith('```python'):
+        content = content[9:]  # Remove ```python
+    if content.startswith('```'):
+        content = content[3:]   # Remove ```
+    if content.endswith('```'):
+        content = content[:-3]  # Remove trailing ```
     
-    # Remove helper columns
-    df = df.drop(['pattern', 'url_length', 'group_order'], axis=1)
-    
-    # Set default locale
-    df['locale'] = 'en'
-    
-    # Check for language codes
-    for lang in ['es', 'hi', 'ko', 'vi']:
-        df.loc[df['url'].str.contains('/' + lang + '/', case=False), 'locale'] = lang
-        df.loc[df['url'].str.contains('/' + lang + '.', case=False), 'locale'] = lang
-    
-    # Save to Excel
-    os.makedirs('basic_scoping', exist_ok=True)
-    df.to_excel(f'basic_scoping/amsbasic-{domain}.xlsx', index=False)
-    
-    return True'''
+    return content.strip()
 
 def save_generated_code(code, file_path):
     """Save generated code to a file."""
