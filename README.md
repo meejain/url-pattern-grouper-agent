@@ -1,14 +1,16 @@
 # URL Pattern Grouper
 
 [![Run URL Pattern Grouper](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-agent.yml/badge.svg)](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-agent.yml)
+[![Code Generation](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-code-gen.yml/badge.svg)](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-code-gen.yml)
 
 An AI-powered tool that analyzes URLs and groups them based on common patterns. It also detects locales and maintains proper sorting.
 
 ## 🚀 Quick Run
 
-Click the button below to run the URL Pattern Grouper:
+Click one of the buttons below to run:
 
 [![Run Agentic AI](https://img.shields.io/badge/🤖_Run-Agentic_AI_Analysis-purple?style=for-the-badge&logoColor=white&labelColor=black)](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-agent.yml)
+[![Generate Code](https://img.shields.io/badge/💻_Run-Code_Generation-blue?style=for-the-badge&logoColor=white&labelColor=black)](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-code-gen.yml)
 
 ## Features
 
@@ -17,6 +19,7 @@ Click the button below to run the URL Pattern Grouper:
 - Maintains proper group sorting (Group 1, 2, 3...)
 - Alphabetically sorts URLs within groups
 - Exports results to Excel with clear formatting
+- Automated code generation for common tasks
 
 ## Output
 
