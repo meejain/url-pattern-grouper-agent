@@ -2,15 +2,6 @@ name: 🤖 Agentic AI Analysis 🧠
 
 on:
   workflow_dispatch:
-    inputs:
-      run_type:
-        description: 'Run Type'
-        required: false
-        default: 'full'
-        type: choice
-        options:
-          - full
-          - test
 
 jobs:
   run-agent:
