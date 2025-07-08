@@ -8,7 +8,7 @@ An AI-powered tool that analyzes URLs and groups them based on common patterns. 
 
 Click the button below to run the URL Pattern Grouper:
 
-[![Run Agentic AI](https://img.shields.io/badge/🤖_Run-Agentic_AI_Analysis-purple?style=for-the-badge&logoColor=white&labelColor=black)](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-agent.yml/dispatch)
+[![Run Agentic AI](https://img.shields.io/badge/🤖_Run-Agentic_AI_Analysis-purple?style=for-the-badge&logoColor=white&labelColor=black)](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-agent.yml)
 
 ## Features
 
