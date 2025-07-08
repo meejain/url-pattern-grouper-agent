@@ -28,7 +28,7 @@ IMPORTANT: Respond ONLY with the raw Python code, without any explanations, mark
 
 The code should define a function called process_urls(urls, domain) that:
 - Takes the urls list and domain string as input
-- Creates and saves the Excel file as 'basic_scoping/amsbasic-{domain}.xlsx'
+- Creates and saves the Excel file as 'basic_scoping/amsbasic-{{domain}}.xlsx'
 - Returns True on success
 """
     
