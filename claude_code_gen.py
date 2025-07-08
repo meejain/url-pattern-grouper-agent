@@ -39,9 +39,15 @@ Your task:
 4. Keep the exact same logic for pattern matching, grouping, sorting, and locale detection
 5. Make sure to handle the input parameters correctly
 
+IMPORTANT MODIFICATIONS:
+- Add a 'source' column to the final DataFrame (should be positioned right after the 'url' column)
+- The source data is available in each URL dictionary as 'source' field
+- Final DataFrame should have columns in this order: ['url', 'source', 'group', 'locale']
+- Keep all other logic exactly the same
+
 IMPORTANT: 
 - Use the EXACT same logic from claude_agent.py - don't change the algorithms
-- Just wrap it in a function format
+- Just wrap it in a function format and add the source column
 - Respond ONLY with the raw Python code, no explanations or markdown
 - The function should process the URLs and save to Excel, then return True
 

@@ -1,3 +1,5 @@
+import anthropic
+import json
 import pandas as pd
 from urllib.parse import urlparse
 import os
@@ -43,8 +45,8 @@ def process_urls(urls, domain):
     # Assign groups to URLs
     urls_df['group'] = urls_df['pattern'].map(lambda x: group_mapping.get(x, ''))
 
-    # Create final dataframe with url and group
-    df = urls_df[['url', 'group']].copy()
+    # Create final dataframe with url, source, group
+    df = urls_df[['url', 'source', 'group']].copy()
 
     # Add numeric group index for sorting (999999 for empty groups to put them at end)
     df['group_index'] = df['group'].map(lambda x: group_index_mapping.get(x, 999999))
@@ -54,9 +56,6 @@ def process_urls(urls, domain):
 
     # Then sort by group index (1,2,3...) and maintain URL order
     df = df.sort_values(['group_index', 'url'], ascending=[True, True])
-
-    # Remove helper column
-    df = df[['url', 'group']]
 
     # Function to extract locale from URL
     def extract_locale(url):
