@@ -38,6 +38,6 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add basic_scoping/grouped_urls.xlsx
+          git add basic_scoping/amsbasic-*.xlsx
           git commit -m "Update URL grouping analysis [skip ci]"
           git push

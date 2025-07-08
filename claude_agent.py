@@ -172,7 +172,11 @@ def extract_locale(url):
 # Add locale column after sorting is complete
 df['locale'] = df['url'].apply(extract_locale)
 
+# Get domain name from the originUrl
+domain_name = urlparse(raw_data.get("originUrl", "")).netloc.replace("www.", "").split(".")[0]
+output_filename = f"amsbasic-{domain_name}.xlsx"
+
 # Save the result
 os.makedirs('basic_scoping', exist_ok=True)
-df.to_excel("basic_scoping/grouped_urls.xlsx", index=False)
-print("✅ Excel exported: basic_scoping/grouped_urls.xlsx")
+df.to_excel(f"basic_scoping/{output_filename}", index=False)
+print(f"✅ Excel exported: basic_scoping/{output_filename}")
