@@ -2,6 +2,8 @@ import anthropic
 import os
 import json
 from pathlib import Path
+import importlib.util
+import sys
 
 def generate_code(prompt, context_vars=None):
     """Generate code using Claude."""
@@ -23,6 +25,8 @@ IMPORTANT: Respond ONLY with the raw Python code, without any explanations, mark
 1. Process the list `urls`
 2. Create a DataFrame `df` with exactly three columns: 'url', 'group', and 'locale'
 3. Save the sorted DataFrame to Excel in 'basic_scoping' directory
+
+The code should define a function called process_urls(data) that takes the JSON data as input and returns True on success.
 """
     
     message = client.messages.create(
@@ -49,6 +53,35 @@ def save_generated_code(code, file_path):
     
     with open(file_path, 'w') as f:
         f.write(code)
+
+def load_and_execute_processor(processor_path, urls_data):
+    """Load and execute the generated URL processor code."""
+    # Add utils directory to Python path
+    utils_dir = str(Path(processor_path).parent.absolute())
+    if utils_dir not in sys.path:
+        sys.path.append(utils_dir)
+    
+    # Import the generated module
+    spec = importlib.util.spec_from_file_location("url_processor", processor_path)
+    if spec is None:
+        print("❌ Failed to load the URL processor module!")
+        return None
+        
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["url_processor"] = module
+    
+    if spec.loader is None:
+        print("❌ Failed to load the URL processor module (no loader)!")
+        return None
+        
+    spec.loader.exec_module(module)
+    
+    # Execute the processing function with our URLs data
+    if hasattr(module, 'process_urls'):
+        return module.process_urls(urls_data)
+    else:
+        print("⚠️ Generated code does not have a process_urls function!")
+        return None
 
 def main():
     # Use exact same prompt as claude_agent.py
@@ -101,10 +134,22 @@ If these URLs share identical path segments:
   domain.com/api/v1/users/list?page=4
 They should be grouped together as they share the pattern 'api/v1/users/list'"""
     
+    # Generate and save the code
     code = generate_code(prompt, context_vars)
-    save_generated_code(code, 'utils/url_processor.py')
+    processor_path = 'utils/url_processor.py'
+    save_generated_code(code, processor_path)
     
-    print("✅ Code generation completed successfully!")
+    # Load URLs data
+    with open('site-urls.json', 'r') as f:
+        urls_data = json.load(f)
+    
+    # Execute the processor
+    result = load_and_execute_processor(processor_path, urls_data)
+    
+    if result:
+        print("✅ URL processing completed successfully!")
+    else:
+        print("❌ URL processing failed!")
 
 if __name__ == "__main__":
     main() 
