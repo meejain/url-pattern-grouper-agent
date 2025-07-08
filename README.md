@@ -1,6 +1,6 @@
 # URL Pattern Grouper
 
-[![Run URL Pattern Grouper](https://github.com/[OWNER]/url-pattern-grouper-agent/actions/workflows/claude-agent.yml/badge.svg)](https://github.com/[OWNER]/url-pattern-grouper-agent/actions/workflows/claude-agent.yml)
+[![Run URL Pattern Grouper](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-agent.yml/badge.svg)](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-agent.yml)
 
 An AI-powered tool that analyzes URLs and groups them based on common patterns. It also detects locales and maintains proper sorting.
 
@@ -8,7 +8,7 @@ An AI-powered tool that analyzes URLs and groups them based on common patterns. 
 
 Click the button below to run the URL Pattern Grouper:
 
-[![Run Agentic AI](https://img.shields.io/badge/🤖%20Run-Agentic%20AI%20Analysis%20🧠-purple?style=for-the-badge&logoColor=white&labelColor=black)](https://github.com/[OWNER]/url-pattern-grouper-agent/actions/workflows/claude-agent.yml)
+[![Run Agentic AI](https://img.shields.io/badge/🤖_Run-Agentic_AI_Analysis-purple?style=for-the-badge&logoColor=white&labelColor=black)](https://github.com/meejain/url-pattern-grouper-agent/actions/workflows/claude-agent.yml/dispatch)
 
 ## Features
 
