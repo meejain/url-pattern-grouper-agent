@@ -39,6 +39,11 @@ prompt = """Process the URLs with these specific requirements:
    - Default to 'en' if no other locale is detected
    - Currently supported locales: en, es, hi, ko, vi
 
+5. Output Format:
+   - Save as Excel file named 'amsbasic-{domain}.xlsx' where domain is extracted from the originUrl
+   - File should be saved in the 'basic_scoping' directory
+   - Do not include index column in the Excel file
+
 Example:
 If these URLs share identical path segments:
   domain.com/api/v1/users/list
@@ -46,9 +51,7 @@ If these URLs share identical path segments:
   domain.com/api/v1/users/list?page=2
   domain.com/api/v1/users/list?page=3
   domain.com/api/v1/users/list?page=4
-They should be grouped together as they share the pattern 'api/v1/users/list'
-
-Export to Excel with clear formatting."""
+They should be grouped together as they share the pattern 'api/v1/users/list'"""
 
 # Build system prompt
 full_context = f"""
