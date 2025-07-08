@@ -26,7 +26,7 @@ IMPORTANT: Respond ONLY with the raw Python code, without any explanations, mark
 """
     
     message = client.messages.create(
-        model="claude-3-sonnet-20240307",
+        model="claude-3-sonnet",
         max_tokens=4000,
         temperature=0,
         messages=[
