@@ -22,6 +22,13 @@ def process_urls(urls, domain):
         segments = path.split('/')
         
         if len(segments) > 1:
+            # Check if first segment is a 2-letter locale code and there are only 2 segments total
+            first_segment = segments[0]
+            if (len(first_segment) == 2 and first_segment.isalpha() and len(segments) == 2):
+                # This is a locale + filename URL (e.g., /fr/espace-medias)
+                # Return unique identifier to prevent grouping
+                return f"unique_{url.replace('/', '_')}"
+            
             # Return all segments except the last one (file name)
             return '/'.join(segments[:-1])
         return path if path else ''
