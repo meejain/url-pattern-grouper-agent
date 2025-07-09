@@ -41,11 +41,23 @@ Your task:
 
 IMPORTANT MODIFICATIONS:
 - Add a 'source' column to the final DataFrame (should be positioned right after the 'url' column)
+- Add a 'template' column to the final DataFrame (should be positioned after the 'locale' column)
 - The source data is available in each URL dictionary as 'source' field
-- Final DataFrame should have columns in this order: ['url', 'source', 'group', 'locale']
+- Final DataFrame should have columns in this order: ['url', 'source', 'group', 'locale', 'template']
 - Remove ALL helper columns (like 'group_index', 'pattern', etc.) from the final output
-- Only keep the 4 main columns: url, source, group, locale
+- Only keep the 5 main columns: url, source, group, locale, template
 - Keep all other logic exactly the same
+
+TEMPLATE IDENTIFICATION (NEW REQUIREMENT):
+- Load inventory.json file which contains a "blocks" section
+- Each block has a "target" field with a list of URLs where that block is used
+- For each URL in the dataset:
+  * Find all blocks where this URL appears in the "target" list
+  * Collect the names/IDs of all such blocks
+  * Group URLs that have the same set of block names into templates
+  * Assign template names like 'Template 1', 'Template 2', etc.
+  * URLs with identical block combinations get the same template name
+- This identifies URLs with similar layouts/structure based on shared blocks
 
 CRITICAL FIXES:
 - Use `df['url'].apply(extract_locale)` NOT `df[['url']].apply(extract_locale, axis=1)`
@@ -74,8 +86,19 @@ User instruction: {prompt}
     # Extract the actual code content from the message
     content = message.content
     if isinstance(content, list) and len(content) > 0:
-        # Get the first text block
-        content = content[0].text if hasattr(content[0], 'text') else str(content[0])
+        # Get the first text block that has text content
+        for block in content:
+            try:
+                content = block.text
+                break
+            except AttributeError:
+                continue
+        else:
+            content = str(content[0])
+    
+    # Ensure content is a string
+    if not isinstance(content, str):
+        content = str(content)
     
     # Remove markdown code block markers if present
     if content.startswith('```python'):
@@ -134,7 +157,9 @@ def main():
         "url": "The complete URL",
         "source": "Source of the URL",
         "targetPath": "Target path",
-        "id": "Unique identifier"
+        "id": "Unique identifier",
+        "template": "Template name based on block instances (e.g., 'Template 1', 'Template 2', etc.)",
+        "template_details": "Comma-separated list of all block target values where this URL appears as an instance"
     }
     
     processor_path = 'utils/url_processor.py'
@@ -143,35 +168,56 @@ def main():
     if not os.path.exists(processor_path):
         prompt = """Process the URLs with these specific requirements:
 
-1. Create a DataFrame with three columns:
+1. Create a DataFrame with six columns:
    - 'url': The complete URL
+   - 'source': Source of the URL (from the source field)
    - 'group': The group name (e.g., 'Group 1', 'Group 2', etc.) or empty string if no group assigned
    - 'locale': The detected language code (e.g., 'en', 'es', 'ko', 'vi', 'hi') with 'en' as default
+   - 'template': Template name based on block instances (e.g., 'Template 1', 'Template 2', etc.)
+   - 'template_details': Comma-separated list of all block names where this URL appears as an instance
 
 2. Pattern Matching and Grouping Rules:
    - Split each URL into path segments (parts between slashes)
    - For each URL, create its pattern by joining all its path segments
    - Count how many URLs share each pattern
+   - SPECIAL RULE: URLs with locale + filename pattern should NOT be grouped
+     * If first segment is exactly 2 letters AND there are only 2 segments total (e.g., /fr/espace-medias)
+     * Return unique identifier to prevent grouping these URLs
+     * This prevents locale + filename URLs from being grouped together
    - When 5 or more URLs have identical path segments (ignoring protocol and domain):
      * Create a new group named 'Group N' (where N increments for each group)
      * Assign all matching URLs to this group
    - URLs that don't have 5 or more matches should have an empty string as their group
 
-3. Sorting Rules:
+3. Template Identification Rules (NEW):
+   - Load the inventory.json file which contains a "blocks" section
+   - Each block has an "instances" array containing objects with "url" field
+   - Each block also has a "target" field with the complete target name (e.g., "carousel (vertical)")
+   - For each URL in the dataset:
+     * Find all blocks where this URL appears in the "instances" array
+     * Collect the "target" field values (NOT the "name" field) of all such blocks
+     * Store these target values as comma-separated string in 'template_details' column
+     * Group URLs that have the same set of target values into templates
+     * Assign template names like 'Template 1', 'Template 2', etc.
+     * URLs with the same combination of target values get the same template name
+   - This identifies URLs with similar layouts/structure
+
+4. Sorting Rules:
    - Homepage (shortest URL) at the top
    - Then group all URLs with assigned groups together
    - Within each group and for ungrouped URLs, sort alphabetically
 
-4. Locale Detection Rules:
+5. Locale Detection Rules:
    - Check for 2-letter language codes in the URL path
    - Look for codes at the start of path or as standalone segments
    - Support formats like '/es/', '/ko.html', or '/vi'
    - Default to 'en' if no other locale is detected
    - Currently supported locales: en, es, hi, ko, vi
 
-5. Output Format:
+6. Output Format:
    - Save as Excel file named 'amsbasic-{domain}.xlsx' where domain is extracted from the originUrl
    - File should be saved in the 'basic_scoping' directory
+   - Final DataFrame should have columns: ['url', 'source', 'group', 'locale', 'template', 'template_details']
    - Do not include index column in the Excel file
 
 Example:
@@ -181,7 +227,16 @@ If these URLs share identical path segments:
   domain.com/api/v1/users/list?page=2
   domain.com/api/v1/users/list?page=3
   domain.com/api/v1/users/list?page=4
-They should be grouped together as they share the pattern 'api/v1/users/list'"""
+They should be grouped together as they share the pattern 'api/v1/users/list'
+
+Template Example:
+If URL1 appears in blocks with targets: ['header (main)', 'footer (standard)', 'sidebar (left)']
+And URL2 also appears in blocks with targets: ['header (main)', 'footer (standard)', 'sidebar (left)']
+Then both get assigned 'Template 1' and template_details: 'header (main), footer (standard), sidebar (left)'
+If URL3 appears in blocks with targets: ['header (main)', 'footer (standard)', 'content (article)']
+Then URL3 gets assigned 'Template 2' and template_details: 'header (main), footer (standard), content (article)'
+
+CRITICAL: Use block["target"] field, NOT block["name"] field for template_details column!"""
         
         # Generate and save the code
         code = generate_code(prompt, context_vars)

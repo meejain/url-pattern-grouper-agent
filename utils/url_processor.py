@@ -5,6 +5,11 @@ from urllib.parse import urlparse
 import os
 
 def process_urls(urls, domain):
+    # Load inventory.json
+    with open("inventory.json") as f:
+        inventory = json.load(f)
+        blocks = inventory.get("blocks", [])
+
     # Create initial dataframe
     urls_df = pd.DataFrame(urls)
 
@@ -22,13 +27,6 @@ def process_urls(urls, domain):
         segments = path.split('/')
         
         if len(segments) > 1:
-            # Check if first segment is a 2-letter locale code and there are only 2 segments total
-            first_segment = segments[0]
-            if (len(first_segment) == 2 and first_segment.isalpha() and len(segments) == 2):
-                # This is a locale + filename URL (e.g., /fr/espace-medias)
-                # Return unique identifier to prevent grouping
-                return f"unique_{url.replace('/', '_')}"
-            
             # Return all segments except the last one (file name)
             return '/'.join(segments[:-1])
         return path if path else ''
@@ -36,12 +34,13 @@ def process_urls(urls, domain):
     # Create patterns and count them
     urls_df['pattern'] = urls_df['url'].apply(get_path_segments)
 
-    # Create groups for patterns with 5 or more occurrences
+    # Create groups for patterns with 5 or more occurrences, except for locale + filename URLs
     group_mapping = {}
     group_index_mapping = {}  # For numeric sorting
     current_group = 1
     for pattern, count in urls_df['pattern'].value_counts().items():
-        if count >= 5:
+        if count >= 5 and not (len(pattern.split('/')) == 2 and pattern.split('/')[0].isalpha() and len(pattern.split('/')[0]) == 2):
+            print(f"\nCreating Group {current_group} for pattern: {pattern}")
             group_name = f'Group {current_group}'
             group_mapping[pattern] = group_name
             group_index_mapping[group_name] = current_group
@@ -51,21 +50,6 @@ def process_urls(urls, domain):
 
     # Assign groups to URLs
     urls_df['group'] = urls_df['pattern'].map(lambda x: group_mapping.get(x, ''))
-
-    # Create final dataframe with url, source, group, and locale
-    df = urls_df[['url', 'source', 'group']].copy()
-
-    # Add numeric group index for sorting (999999 for empty groups to put them at end)
-    df['group_index'] = df['group'].map(lambda x: group_index_mapping.get(x, 999999))
-
-    # First sort URLs alphabetically within each group
-    df = df.sort_values('url', ascending=True)
-
-    # Then sort by group index (1,2,3...) and maintain URL order
-    df = df.sort_values(['group_index', 'url'], ascending=[True, True])
-
-    # Remove helper column
-    df = df[['url', 'source', 'group']]
 
     # Function to extract locale from URL
     def extract_locale(url):
@@ -106,15 +90,52 @@ def process_urls(urls, domain):
         return 'en'
 
     # Add locale column
-    df['locale'] = df['url'].apply(extract_locale)
+    urls_df['locale'] = urls_df['url'].apply(extract_locale)
+
+    # Function to find template details for a URL
+    def get_template_details(url):
+        template_details = []
+        for block in blocks:
+            if any(instance["url"] == url for instance in block["instances"]):
+                template_details.append(block["target"])
+        return ', '.join(template_details)
+
+    # Add template details column
+    urls_df['template_details'] = urls_df['url'].apply(get_template_details)
+
+    # Group URLs by template details and assign template names
+    template_mapping = {}
+    template_index_mapping = {}
+    current_template = 1
+    for details in urls_df['template_details'].unique():
+        if details:
+            template_name = f'Template {current_template}'
+            template_mapping[details] = template_name
+            template_index_mapping[template_name] = current_template
+            current_template += 1
+        else:
+            template_mapping[details] = ''
+
+    # Assign template names to URLs
+    urls_df['template'] = urls_df['template_details'].map(lambda x: template_mapping.get(x, ''))
+
+    # Create final dataframe with required columns
+    df = urls_df[['url', 'source', 'group', 'locale', 'template', 'template_details']]
+
+    # Add numeric group index for sorting (999999 for empty groups to put them at end)
+    df['group_index'] = df['group'].map(lambda x: group_index_mapping.get(x, 999999))
+
+    # First sort URLs alphabetically within each group
+    df = df.sort_values('url', ascending=True)
+
+    # Then sort by group index (1,2,3...) and maintain URL order
+    df = df.sort_values(['group_index', 'url'], ascending=[True, True])
+
+    # Remove helper columns
+    df = df[['url', 'source', 'group', 'locale', 'template', 'template_details']]
 
     # Get domain name from the originUrl
-    # Handle both full URLs and domain-only strings - use complete domain
-    if domain.startswith(('http://', 'https://')):
-        domain_name = urlparse(domain).netloc.replace("www.", "")
-    else:
-        domain_name = domain.replace("www.", "")
-    output_filename = f"amsbasic-{domain_name}.xlsx"
+    output_filename = f"amsbasic-{domain}.xlsx"
 
     # Save the result
     os.makedirs('basic_scoping', exist_ok=True)
