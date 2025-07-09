@@ -102,7 +102,11 @@ def process_urls(urls, domain):
     df['locale'] = df['url'].apply(extract_locale)
 
     # Get domain name from the originUrl
-    domain_name = urlparse(domain).netloc.replace("www.", "").split(".")[0]
+    # Handle both full URLs and domain-only strings - use complete domain
+    if domain.startswith(('http://', 'https://')):
+        domain_name = urlparse(domain).netloc.replace("www.", "")
+    else:
+        domain_name = domain.replace("www.", "")
     output_filename = f"amsbasic-{domain_name}.xlsx"
 
     # Save the result
