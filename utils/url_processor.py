@@ -96,8 +96,17 @@ def process_urls(urls, domain):
     def get_template_details(url):
         template_details = []
         for block in blocks:
-            if any(instance["url"] == url for instance in block["instances"]):
-                template_details.append(block["target"])
+            if "instances" in block and block["instances"]:
+                for instance in block["instances"]:
+                    if "url" in instance and instance["url"] == url:
+                        # Use target first, then key, then name as fallback
+                        if "target" in block:
+                            template_details.append(block["target"])
+                        elif "key" in block:
+                            template_details.append(block["key"])
+                        elif "name" in block:
+                            template_details.append(block["name"])
+                        break
         return ', '.join(template_details)
 
     # Add template details column
