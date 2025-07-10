@@ -1,0 +1,936 @@
+{
+    "originUrl": "https://arbres.fondationsaudemarspiguet.org",
+    "lastCrawled": "https://arbres.fondationsaudemarspiguet.org",
+    "urls": [
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/",
+        "source": "CRAWL",
+        "targetPath": "/",
+        "id": "c67c7fc0c4bcd3585f49ee251a04733e4ec90699"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en",
+        "source": "CRAWL",
+        "targetPath": "/en",
+        "id": "5a02ea61df6da9e42720efdbfa02349eaff1f3b9"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/cookie-policy",
+        "source": "CRAWL",
+        "targetPath": "/en/cookie-policy",
+        "id": "069192def5e6aae300da028c0fd0e6f89a72af9b"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/credits-photographiques",
+        "source": "CRAWL",
+        "targetPath": "/en/credits-photographiques",
+        "id": "3d52107b61431c5746577d8988d3052487386dc7"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-contact",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-contact",
+        "id": "57bd182a60bbd4618b46dbc972ba3ef2e48b1ae6"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-news",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-news",
+        "id": "7e5c7504c5e4cd2ea5ad80bfefdac87ab484128e"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-news/education-and-resilience-future-proofing-the-youth-of-uganda",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-news/education-and-resilience-future-proofing-the-youth-of-uganda",
+        "id": "e23deb36f254d836f41767987573dbce4dbe37a7"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-news/new-forest-reserve-in-the-parc-naturel-du-jorat",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-news/new-forest-reserve-in-the-parc-naturel-du-jorat",
+        "id": "e20d7024960e29daab87d114d86b1776562395f2"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-news/on-the-trail-of-resonance-wood",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-news/on-the-trail-of-resonance-wood",
+        "id": "74ea070e4da07d5d5f2ad8b507ea5d38f39ee2f8"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-news/sentier-de-la-morges-inauguration-of-two-didactic-trails",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-news/sentier-de-la-morges-inauguration-of-two-didactic-trails",
+        "id": "e64e602b6f93e5f58c6a2166f78beb86b9438a92"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-news/supporting-education-to-unlock-young-potential",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-news/supporting-education-to-unlock-young-potential",
+        "id": "6f8978c3ab32898737a312cc3a215c3f14c72bf5"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-news/the-ppi-celebrates-its-20th-anniversary-in-senegal",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-news/the-ppi-celebrates-its-20th-anniversary-in-senegal",
+        "id": "3ff01fc2c15b42e5d5530ac3e24db01e0977dab4"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-news/voyage-au-centre-de-la-foret-a-la-recherche-de-sylvette-la-c",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-news/voyage-au-centre-de-la-foret-a-la-recherche-de-sylvette-la-c",
+        "id": "d606795dd888c37193fdcbfe2bd8d840615f6e0a"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects",
+        "id": "aa885ff9133c3cf2e9ebecdb64fc1d78a0ef701f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects-map",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects-map",
+        "id": "7ae75e8314dca47ddd58e1d7f5ad1ab5c4e009c7"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects-map?carte=ok",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects-map",
+        "id": "28f899106901568c1d7af66278a7fe32374ebd25"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/13",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/13",
+        "id": "45b56dc9925464906b0ba22cf3c4a4cf73e47e8b"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/afforestation-of-chambarak-and-ttujur-communities",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/afforestation-of-chambarak-and-ttujur-communities",
+        "id": "df8a1af6f0fbb860e7fd7c420313d45377adf6ec"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/agro-ecological-restoration-and-agroforestry-in-the-green-be",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/agro-ecological-restoration-and-agroforestry-in-the-green-be",
+        "id": "34ff0fbf9d3aa0a1ebe2f6aff9b2c223d8449121"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/agroforestry-and-green-entrepreneurship",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/agroforestry-and-green-entrepreneurship",
+        "id": "511e8d12a9f46f2fddac82b673bc7f9376ee0779"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/ancestral-knowledge-preservation-conservation-and-cultivatio",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/ancestral-knowledge-preservation-conservation-and-cultivatio",
+        "id": "fb880e24e78b037be38d781046a1530ff63f0437"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/awareness-raising-and-environmental-education-for-young-peop",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/awareness-raising-and-environmental-education-for-young-peop",
+        "id": "4fbfd5f657e83d8c66a62f59a417594e758fbd99"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/blue-forests",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/blue-forests",
+        "id": "3ed8245a3c670394c68937cd21e75567b0a49acb"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/conservation-of-threatened-woody-species",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/conservation-of-threatened-woody-species",
+        "id": "420383fba9fced99d7636f6b294f836c3921ab89"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/creating-a-forest-for-learning-ii",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/creating-a-forest-for-learning-ii",
+        "id": "5e16ec71fd92a7376711b016387c5b5b8a0bdca0"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/creating-a-forest-for-learning-iii",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/creating-a-forest-for-learning-iii",
+        "id": "29dd6f117f46635d0d6751cb8eacc27e6db6caac"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/dundreggan-rewilding-centre",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/dundreggan-rewilding-centre",
+        "id": "a89ed9d8ecfca7a236f83cb7f9d1968758091e9f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/empowering-ethnic-minority-women-for-sustainable-forest-mana",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/empowering-ethnic-minority-women-for-sustainable-forest-mana",
+        "id": "90ff2f2718b3423e433e0d7b864271c098eec8c7"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/environmental-education-centres",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/environmental-education-centres",
+        "id": "d5cb6fd94a7c39964e69de08305de8af44641593"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/forest-restoration-and-preservation-on-the-island-of-flores",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/forest-restoration-and-preservation-on-the-island-of-flores",
+        "id": "87e923fb8366421dee11aa31020e0430bd1ab245"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/foretxcellence",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/foretxcellence",
+        "id": "cee7496b9ccc7be80e78de301da320c38679345c"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/fruit-producing-edges-of-the-grandes-tattes-forest-14",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/fruit-producing-edges-of-the-grandes-tattes-forest-14",
+        "id": "769d5870f866917981c89ce35bd23e32e798d5df"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/green-cashew-sustainable-cashew-cultivation-to-fight-climate",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/green-cashew-sustainable-cashew-cultivation-to-fight-climate",
+        "id": "0bf6b1dd249a06393cd8543f5ea8c555789db4b1"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/improving-mediation-and-conservation",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/improving-mediation-and-conservation",
+        "id": "5cd872f0d643108098570e51ad4b289495b8473c"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/improving-the-lives-of-rural-communities-through-the-plantin",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/improving-the-lives-of-rural-communities-through-the-plantin",
+        "id": "ef0153618bda398949e54551af21046de0649aa7"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/integrated-forest-resource-management",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/integrated-forest-resource-management",
+        "id": "630d49dfff0d9f6b9967edcdc2c63b0b1194194b"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/integrated-management-of-mangrove-landscape-in-the-douala-ed",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/integrated-management-of-mangrove-landscape-in-the-douala-ed",
+        "id": "b8454a6acfff8e7d41c78872314a451e976393cd"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/itombwe-forest-conservation",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/itombwe-forest-conservation",
+        "id": "224d6eb1038c0da9e5de794a803784dcf909d01b"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/landscape-and-biodiversity",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/landscape-and-biodiversity",
+        "id": "182cbcc7f7a3f7edcf160610f6e70a62a56348bf"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/mikago",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/mikago",
+        "id": "76651cfc0abc253814dcd65b8b6bbc4caf7f18a4"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/mountain-farmers-and-savannah-pastoralists-conserving-sustai",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/mountain-farmers-and-savannah-pastoralists-conserving-sustai",
+        "id": "d722fa6a078d31423665f9c35853692b4b2bb647"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/mpigi-forest-school",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/mpigi-forest-school",
+        "id": "53fab5187cf3585c08fa815243bc8c90a52037d7"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/multipalms",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/multipalms",
+        "id": "b6685d061fba3f9a42ab18dff8c4139f07abd01f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/preserver-les-dernieres-forets-seches-par-lagroforesterie",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/preserver-les-dernieres-forets-seches-par-lagroforesterie",
+        "id": "8b81c182f3cc909e6cb17909367faa3db4ce5d1f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/protection-de-la-foret-par-la-titularisation-fonciere-de-com",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/protection-de-la-foret-par-la-titularisation-fonciere-de-com",
+        "id": "4851e0928bced5cfe3818fb9dea0977d750ffb00"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/reception-infrastructure-at-the-parc-naturel-du-jorat",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/reception-infrastructure-at-the-parc-naturel-du-jorat",
+        "id": "615fa970604bc7e5510118472dd5e5b63995475e"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/reforestation-and-agroforestry-on-the-bateke-plateau",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/reforestation-and-agroforestry-on-the-bateke-plateau",
+        "id": "827e931ac0e6336a7413cb1ca74934d74094085f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/reforestation-and-brazil-nuts",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/reforestation-and-brazil-nuts",
+        "id": "9b3ef3df93d499c0c73a6659738d5dadc221bffc"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/reinforcing-the-traditional-medicinal-plant-culture-and-refo",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/reinforcing-the-traditional-medicinal-plant-culture-and-refo",
+        "id": "d1bf9a2b22eedd55138cb57b82e877d1a56fd3c4"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/resilience-and-adaptation-to-climate-change-in-the-sitatunga",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/resilience-and-adaptation-to-climate-change-in-the-sitatunga",
+        "id": "4ba204824a826bdbb35fb3c09f41b40ec05fd3f4"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/risoud-resonance-wood-learning-trail",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/risoud-resonance-wood-learning-trail",
+        "id": "c04bc93d234721d0671f9eb3ad763015dd332687"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/save-the-pilat-forests",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/save-the-pilat-forests",
+        "id": "3c63fdc1555f850bd24ac31daf3547b80b1fee18"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/sea-forest",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/sea-forest",
+        "id": "90dddafd03d2186982604c2427b99dfa41e1c3e6"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/sentier-de-la-morges-trail",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/sentier-de-la-morges-trail",
+        "id": "52bb82de96fe9f0630d911df051501fcd7b228ff"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/stepping-up-protection-for-a-thousand-hectares-of-forest-fra",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/stepping-up-protection-for-a-thousand-hectares-of-forest-fra",
+        "id": "73202af9d4fbd6f2dbd89daaf64b65743fe27a44"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/stepping-up-protection-for-madagascars-largest-wild-populati",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/stepping-up-protection-for-madagascars-largest-wild-populati",
+        "id": "cbc21e67d1278109ee4e4f541559eb07389aa358"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/support-for-sustainable-development-through-the-conservation",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/support-for-sustainable-development-through-the-conservation",
+        "id": "f0e587a8aaba8947d0875382947e29d9be61e6d1"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/support-for-traditional-mayan-agriculture-and-raising-awaren",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/support-for-traditional-mayan-agriculture-and-raising-awaren",
+        "id": "4aeb8ee2449bc6870fca103b3c915816ddded620"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/support-programme-for-biodiversity-ngos-working-in-developin",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/support-programme-for-biodiversity-ngos-working-in-developin",
+        "id": "70a09f911704b80f0d61c8be6640fae6962d5ca8"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/supporting-local-communities-through-the-conservation-of-anc",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/supporting-local-communities-through-the-conservation-of-anc",
+        "id": "894caf9c850dac80fc956e7c5d1004cad7e9ae66"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/supporting-the-reconstitution-of-forest-cover-through-agro-e",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/supporting-the-reconstitution-of-forest-cover-through-agro-e",
+        "id": "edd8c2726e7dbb147b69d5759b557a4c751f36f8"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/sustainable-mass-timber-construction-for-resilient-rural-eco",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/sustainable-mass-timber-construction-for-resilient-rural-eco",
+        "id": "7e298b09302579273a9352af74a52c5c6a8e4d4d"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/sustainable-protection-of-biodiversity-in-the-vaud-alps",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/sustainable-protection-of-biodiversity-in-the-vaud-alps",
+        "id": "7f85c3f899c284e62bb0de16bf3c30e4e8e127d9"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/the-foresters-world",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/the-foresters-world",
+        "id": "ef779788d9b6abf705975f37a0a0ca4a7c47a33d"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/time-for-conservation-of-endemic-threatened-flora-in-cape-ve",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/time-for-conservation-of-endemic-threatened-flora-in-cape-ve",
+        "id": "8a094421739b15089daea709b77be1888e5e67bc"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-projects/toile-verte",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-projects/toile-verte",
+        "id": "f0493932b972ca952deebe0468248065808396ab"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-the-foundation-our-history",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-the-foundation-our-history",
+        "id": "4da0d137c61a13a31411e2bd7c20edf0d09bb3b5"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-the-foundation-our-mission",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-the-foundation-our-mission",
+        "id": "616f026298901d35668c7e1e1b5aead3da428a2d"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-the-foundation-our-partners",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-the-foundation-our-partners",
+        "id": "bfb7dea97d854614d3eb0c8725cb448d4ea0f4c2"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/fondation-pour-les-arbres-the-foundation-our-team",
+        "source": "CRAWL",
+        "targetPath": "/en/fondation-pour-les-arbres-the-foundation-our-team",
+        "id": "1247b5c480b5cc67b79b788886fe357d822a9051"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/home-page",
+        "source": "CRAWL",
+        "targetPath": "/en/home-page",
+        "id": "c83ce68e365a5df9e92f31fbb3967d35dc1b0cc8"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/media-newsroom",
+        "source": "CRAWL",
+        "targetPath": "/en/media-newsroom",
+        "id": "3b6b9bdfa3c1e446377988a93075b538a2eb5f3b"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/privacy-notice",
+        "source": "CRAWL",
+        "targetPath": "/en/privacy-notice",
+        "id": "80b2bad2c903d60bb14ca0fa9ca62e355abca551"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/terms-of-use",
+        "source": "CRAWL",
+        "targetPath": "/en/terms-of-use",
+        "id": "2fd3c6f967e937b0c1d8fbfd35a9284979bbc15c"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr",
+        "source": "CRAWL",
+        "targetPath": "/fr",
+        "id": "739946489d843e37ea8093311c8c18691094588f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/conditions-dutilisation",
+        "source": "CRAWL",
+        "targetPath": "/fr/conditions-dutilisation",
+        "id": "ca9aed5ea1a98257c77481469486428ab5536f92"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/credits-photographiques",
+        "source": "CRAWL",
+        "targetPath": "/fr/credits-photographiques",
+        "id": "8c76409b46398fc721a652cbe31c8499a3957469"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/declaration-de-confidentialite",
+        "source": "CRAWL",
+        "targetPath": "/fr/declaration-de-confidentialite",
+        "id": "abf6bee117eae1f1afb129093bd1864c8f357302"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/espace-medias",
+        "source": "CRAWL",
+        "targetPath": "/fr/espace-medias",
+        "id": "ac2c0cc449184540d7123ef370db542c174be0df"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-actualites",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-actualites",
+        "id": "be9b5186e518050c8a70e476e681e569f075fd9c"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-actualites/education-et-resilience-la-jeunesse-ougandaise-a-lepreuve-du",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-actualites/education-et-resilience-la-jeunesse-ougandaise-a-lepreuve-du",
+        "id": "87cd25a2da0876ed89fdd3e67a97485e8a5a93f6"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-actualites/le-ppi-celebre-ses-20-ans-au-senegal",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-actualites/le-ppi-celebre-ses-20-ans-au-senegal",
+        "id": "750d42af3bf2e0a0c4d75a8daf289fb774fc7fd4"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-actualites/nouvelle-reserve-forestiere-dans-le-parc-naturel-du-jorat",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-actualites/nouvelle-reserve-forestiere-dans-le-parc-naturel-du-jorat",
+        "id": "1cf45e1cf6fcbb0c4222bfb25ac0894aaed11342"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-actualites/sentier-de-la-morges-inauguration-de-deux-parcours-didactiqu",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-actualites/sentier-de-la-morges-inauguration-de-deux-parcours-didactiqu",
+        "id": "e325f72f0f426c4a7bbf0549df89de39fb573e24"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-actualites/soutenir-leducation-pour-reveler-le-potentiel-des-jeunes",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-actualites/soutenir-leducation-pour-reveler-le-potentiel-des-jeunes",
+        "id": "421214dc4a56da572f64f7a806abf97004244fee"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-actualites/sur-les-traces-du-bois-de-resonance",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-actualites/sur-les-traces-du-bois-de-resonance",
+        "id": "63491d3c348131bbfc017bd356d3740fc9e8c509"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-actualites/voyage-au-centre-de-la-foret-a-la-recherche-de-sylvette-la-c",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-actualites/voyage-au-centre-de-la-foret-a-la-recherche-de-sylvette-la-c",
+        "id": "37dd21e5d86c1dd39a1a8b82b23ac6acbd81ab32"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-contact",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-contact",
+        "id": "ce39a6fd25f0dbbcbc05e5b43355c6671152b65c"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-home-page",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-home-page",
+        "id": "3d478751cd1a9a117c9dd56cbd402a2dd24ce15c"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-la-fondation-nos-partenaires",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-la-fondation-nos-partenaires",
+        "id": "88c733b7a3acf2f4eee443dca3fa7245766a74de"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-la-fondation-notre-equipe",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-la-fondation-notre-equipe",
+        "id": "fb3cf54b7a08a5cceb6ac6b1473742e8d0985380"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-la-fondation-notre-histoire",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-la-fondation-notre-histoire",
+        "id": "2c517e1e4efc9a9201554987ea45b61ad1c5d371"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-la-fondation-notre-mission",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-la-fondation-notre-mission",
+        "id": "75c11bcd7fc49bc0f4bccbff709c63a838f63f52"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets",
+        "id": "b82b2d767c1128498462c380d739e3dc52e11567"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets-carte",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets-carte",
+        "id": "6784e42749ccba3c6cccefb43c63911315b902ad"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets-carte?carte=ok",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets-carte",
+        "id": "c3a685f39e078770b4a119d7e08f8ea496c45cbf"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/agir-maintenant-pour-la-preservation-de-la-flore-endemique-m",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/agir-maintenant-pour-la-preservation-de-la-flore-endemique-m",
+        "id": "ea1026f2dee7541f74eaa2f32c5f6d2df31a7f25"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/agriculteurs-de-montagne-et-eleveurs-de-la-savane-preserver",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/agriculteurs-de-montagne-et-eleveurs-de-la-savane-preserver",
+        "id": "3737e7733ff6b6cbbe747e3b0d05814a11d6580d"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/agroforesterie-et-entrepreneuriat-vert",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/agroforesterie-et-entrepreneuriat-vert",
+        "id": "7a8b40bd7bee70b6983ddd4c28f667a2992e8448"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/amelioration-de-la-mediation-et-de-la-conservation",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/amelioration-de-la-mediation-et-de-la-conservation",
+        "id": "f2074a4c595c74b09d3bb1482947c27c10f3437c"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/ameliorer-la-vie-des-communautes-rurales-par-la-plantation-d",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/ameliorer-la-vie-des-communautes-rurales-par-la-plantation-d",
+        "id": "a33dc4edc33feae49966c4c8b8f7865d76424473"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/appui-a-la-reconstitution-du-couvert-forestier-par-des-prati",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/appui-a-la-reconstitution-du-couvert-forestier-par-des-prati",
+        "id": "e05ab5516c22997595ca769109fd370432a09850"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/appui-a-lagriculture-traditionnelle-maya-et-sensibilisation",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/appui-a-lagriculture-traditionnelle-maya-et-sensibilisation",
+        "id": "c060c8172500eaf34bebe1f759c85ae3da40574f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/appui-au-developpement-durable-a-travers-la-conservation-et",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/appui-au-developpement-durable-a-travers-la-conservation-et",
+        "id": "a4d4b57e5951820e2f0cb6d43be918eaf6ac4144"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/autonomiser-les-femmes-de-minorites-ethniques-par-la-gestion",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/autonomiser-les-femmes-de-minorites-ethniques-par-la-gestion",
+        "id": "b34e7d7c1944c0c489b00b9c073be625a48f5c90"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/centres-deducation-environnementale",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/centres-deducation-environnementale",
+        "id": "80b0104fea9afff38f9ca40bcc7f61fa6c9324ce"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/conservation-de-la-foret-ditombwe",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/conservation-de-la-foret-ditombwe",
+        "id": "b7798fa1a72463411d58315ba62aa782eab552c0"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/conservation-des-especes-ligneuses-menacees",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/conservation-des-especes-ligneuses-menacees",
+        "id": "486ceb4738a26803b4bd0c7266cd1ff47aa6d58f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/constructions-durables-en-bois-de-charpente-pour-des-economi",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/constructions-durables-en-bois-de-charpente-pour-des-economi",
+        "id": "54c78b788cdce3eab7336e3812e21d5de08abdec"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/creer-une-foret-pour-lapprentissage-ii",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/creer-une-foret-pour-lapprentissage-ii",
+        "id": "49f41214680fb4fd191fd14d9499dff84bbd0522"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/creer-une-foret-pour-lapprentissage-iii",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/creer-une-foret-pour-lapprentissage-iii",
+        "id": "36cbbd7c491e3454ecdac7768c463b62c87a7144"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/dundreggan-rewilding-centre",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/dundreggan-rewilding-centre",
+        "id": "dbe92341a5433b9d4f8abfe5114bcd247243f32f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/espaces-vivants",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/espaces-vivants",
+        "id": "7f956f3627895e82f203b3cd0cec93b331f4f51c"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/forets-bleues",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/forets-bleues",
+        "id": "19f8721042804ce4642eaf80bb4c80297f0677b6"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/foretxcellence",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/foretxcellence",
+        "id": "9d137e82aa02790370ff5114f91065a8ed2f081d"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/gestion-integree-des-paysages-de-mangroves-dans-le-parc-nati",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/gestion-integree-des-paysages-de-mangroves-dans-le-parc-nati",
+        "id": "e7b9a503804ab4f14425b0d42c4664ecd2dbc02e"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/gestion-integree-des-ressources-forestieres",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/gestion-integree-des-ressources-forestieres",
+        "id": "021b838d67bc929fa55042dbf20cc1f8e49369c9"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/green-cashew-culture-durable-de-la-noix-de-cajou-pour-lutter",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/green-cashew-culture-durable-de-la-noix-de-cajou-pour-lutter",
+        "id": "d8abf75c73f719147841921d20ebce904fb19c7f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/infrastructures-daccueil-du-parc-naturel-du-jorat",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/infrastructures-daccueil-du-parc-naturel-du-jorat",
+        "id": "54153f4143e968b81f760522fb4e8e93d5675ca9"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/la-foret-de-la-mer",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/la-foret-de-la-mer",
+        "id": "00049d8a06b16fbe29992925d99ee5be475d2184"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/lecole-de-la-foret-de-mpigi",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/lecole-de-la-foret-de-mpigi",
+        "id": "d569c3571e2e89e080039bda9a964e3d28a1e12d"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/lisieres-fruitieres-de-la-foret-des-grandes-tattes-14",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/lisieres-fruitieres-de-la-foret-des-grandes-tattes-14",
+        "id": "c22bd6f4a57a326b32cf40c5e2d6e7ed02ddab99"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/mikago",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/mikago",
+        "id": "a6ed7a6b538e3180d14d89c607af9fa145209470"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/multipalms",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/multipalms",
+        "id": "d4e4782a3e77cc0492e866ec813f33d803c957ac"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/paysage-et-biodiversite",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/paysage-et-biodiversite",
+        "id": "65b01acfc26be43b4f42758af644116ff35d888f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/plantes-medicinales",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/plantes-medicinales",
+        "id": "b05c16b21ce50931690657ddae6b7a505fef81ca"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/preservation-des-savoirs-ancestraux-conservation-et-culture",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/preservation-des-savoirs-ancestraux-conservation-et-culture",
+        "id": "d227bc3843fb548b487a4ac9c68f097649f70a35"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/preserver-les-dernieres-forets-seches-par-lagroforesterie",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/preserver-les-dernieres-forets-seches-par-lagroforesterie",
+        "id": "620a26e1d33ba286bcf770851f46bc01fb14b730"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/programme-dappui-aux-ong-de-biodiversite-actives-dans-les-pa",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/programme-dappui-aux-ong-de-biodiversite-actives-dans-les-pa",
+        "id": "5a88f6e284156e268e408a53e9c51c070d91c264"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/protection-de-la-foret-par-la-titularisation-fonciere-de-com",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/protection-de-la-foret-par-la-titularisation-fonciere-de-com",
+        "id": "b6b929fb03dc91ca3be0ecaf70df2e0b75fb581b"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/proteger-durablement-la-biodiversite-dans-les-alpes-vaudoise",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/proteger-durablement-la-biodiversite-dans-les-alpes-vaudoise",
+        "id": "5a031d8cdaf0131def65c8de97ba029b3a25e25f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/reforestation-et-agroforesterie-sur-le-plateau-de-bateke",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/reforestation-et-agroforesterie-sur-le-plateau-de-bateke",
+        "id": "a08f481b530c5dd0abb01dcf77cae9ec3b014196"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/reforestation-et-noix-du-bresil",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/reforestation-et-noix-du-bresil",
+        "id": "16fe32d5f9b5ff0ba87c26313f8a800c6d8c3938"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/reforestation-par-les-communautes-chambarak-et-ttujur",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/reforestation-par-les-communautes-chambarak-et-ttujur",
+        "id": "22fa133476b1c79f45027888182496b1955f1f1f"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/renforcement-de-la-protection-de-la-plus-importante-populati",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/renforcement-de-la-protection-de-la-plus-importante-populati",
+        "id": "631c96a95281f86de5d2b86641e75d2ec513304b"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/renforcement-de-la-protection-dun-millier-dhectares-de-fragm",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/renforcement-de-la-protection-dun-millier-dhectares-de-fragm",
+        "id": "742cc521f134070191fcbadbe125f675aa36c713"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/resilience-et-adaptation-au-changement-climatique-dans-la-va",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/resilience-et-adaptation-au-changement-climatique-dans-la-va",
+        "id": "d811467bc2209f56fdcab4828ee74d3db97631d4"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/restauration-agro-ecologique-et-agroforesterie-dans-la-ceint",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/restauration-agro-ecologique-et-agroforesterie-dans-la-ceint",
+        "id": "6698727e402f46937d6256138fb0d46222e22e75"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/restauration-et-preservation-des-forets-de-lile-de-flores-in",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/restauration-et-preservation-des-forets-de-lile-de-flores-in",
+        "id": "ee917ad5125e998526da6592ef75b3c0d4142ad7"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/sauvons-les-forets-du-pilat",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/sauvons-les-forets-du-pilat",
+        "id": "8f4b281c896279de0d0706ec5794dc3bec0b6461"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/sensibilisation-et-education-environnementale-de-jeunes-des",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/sensibilisation-et-education-environnementale-de-jeunes-des",
+        "id": "137bafccd08c71e6aa3facc93f1a079f24828255"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/sentier-de-la-morges",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/sentier-de-la-morges",
+        "id": "721b1d83f213f036a8c5ef31928b22fb1fdc90a0"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/sentier-didactique-du-bois-de-resonance-du-risoud",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/sentier-didactique-du-bois-de-resonance-du-risoud",
+        "id": "ca5af3a76d2a8b7fb54cc3ee646bf490abe63224"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/soutenir-les-communautes-locales-a-travers-la-conservation-d",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/soutenir-les-communautes-locales-a-travers-la-conservation-d",
+        "id": "5ba59f8183f77514265bd8b6ce8795df41e05ee2"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/toile-verte",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/toile-verte",
+        "id": "bd0f3ab95d9d79ed7a656d00fc865d2aedecd52c"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/fondation-pour-les-arbres-nos-projets/univers-forestier",
+        "source": "CRAWL",
+        "targetPath": "/fr/fondation-pour-les-arbres-nos-projets/univers-forestier",
+        "id": "30a66f0966c73e147e76976d05314440fbf8eac7"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/politique-de-cookie",
+        "source": "CRAWL",
+        "targetPath": "/fr/politique-de-cookie",
+        "id": "ad293ba477c8abbc56c0706ceed495e5b0e9deff"
+      }
+    ],
+    "crawlOptions": {
+      "timeout": 64800000,
+      "inclusionPatterns": [],
+      "exclusionPatterns": [],
+      "limit": -1,
+      "sameDomain": true,
+      "keepHash": false,
+      "strategy": "crawl",
+      "logger": {}
+    },
+    "extractionErrors": [
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/home-page-27",
+        "status": "302 Found Redirect: https://biencommun.fondationsaudemarspiguet.org/en/home-page-27"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/home-bien-commun",
+        "status": "302 Found Redirect: https://biencommun.fondationsaudemarspiguet.org/fr/home-bien-commun"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/audemars-piguet-foundations-6-our-vision",
+        "status": "302 Found Redirect: https://fondationsaudemarspiguet.org/en/audemars-piguet-foundations-6-our-vision"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/contact",
+        "status": "302 Found Redirect: https://fondationsaudemarspiguet.org/en/contact"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/en/rubriques-homepage",
+        "status": "302 Found Redirect: https://fondationsaudemarspiguet.org/en/rubriques-homepage"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/contact",
+        "status": "302 Found Redirect: https://fondationsaudemarspiguet.org/fr/contact"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/home-fondations",
+        "status": "302 Found Redirect: https://fondationsaudemarspiguet.org/fr/home-fondations"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/fr/page-fondations-audemars-piguet-notre-vision",
+        "status": "302 Found Redirect: https://fondationsaudemarspiguet.org/fr/page-fondations-audemars-piguet-notre-vision"
+      },
+      {
+        "url": "https://arbres.fondationsaudemarspiguet.org/img/favicon/ap-arbres/site.webmanifest",
+        "status": "content type is not text/html"
+      }
+    ]
+  }
