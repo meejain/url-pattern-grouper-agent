@@ -99,12 +99,8 @@ def process_urls(urls, domain):
             if "instances" in block and block["instances"]:
                 for instance in block["instances"]:
                     if "url" in instance and instance["url"] == url:
-                        # Use target first, then key, then name as fallback
-                        if "target" in block:
-                            template_details.append(block["target"])
-                        elif "key" in block:
-                            template_details.append(block["key"])
-                        elif "name" in block:
+                        # Use only the name field
+                        if "name" in block:
                             template_details.append(block["name"])
                         break
         return ', '.join(template_details)
