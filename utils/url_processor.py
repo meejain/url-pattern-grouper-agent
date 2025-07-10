@@ -7,15 +7,26 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import urllib3
+import warnings
 
-def scrape_url_for_forms(url, timeout=10):
+# Suppress SSL warnings
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+warnings.filterwarnings('ignore', message='Unverified HTTPS request')
+
+def scrape_url_for_forms(url, timeout=8):
     """Scrape a URL to detect form elements and gather form information"""
     try:
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
         }
         
-        response = requests.get(url, headers=headers, timeout=timeout, verify=False)
+        response = requests.get(url, headers=headers, timeout=timeout, verify=False, allow_redirects=True)
         response.raise_for_status()
         
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -104,12 +115,14 @@ def scrape_url_for_forms(url, timeout=10):
             'status': f'Error: {str(e)[:50]}'
         }
 
-def scrape_urls_for_forms(urls, max_workers=5):
+def scrape_urls_for_forms(urls, max_workers=3):
     """Scrape multiple URLs for forms using threading"""
     print(f"🕷️  Starting form detection for {len(urls)} URLs...")
+    print(f"   Using {max_workers} concurrent workers with rate limiting...")
     
     results = {}
     completed = 0
+    successful = 0
     
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all scraping tasks
@@ -123,15 +136,18 @@ def scrape_urls_for_forms(urls, max_workers=5):
                 results[url] = result
                 completed += 1
                 
-                # Progress update every 50 URLs
-                if completed % 50 == 0:
-                    print(f"  Processed {completed}/{len(urls)} URLs...")
+                if result['status'] == 'Success':
+                    successful += 1
+                
+                # Progress update every 25 URLs
+                if completed % 25 == 0:
+                    success_rate = (successful / completed) * 100
+                    print(f"  📊 Progress: {completed}/{len(urls)} URLs ({success_rate:.1f}% success rate)")
                     
                 # Rate limiting - small delay between requests
-                time.sleep(0.1)
+                time.sleep(0.05)
                 
             except Exception as e:
-                print(f"  Error processing {url}: {e}")
                 results[url] = {
                     'has_forms': False,
                     'form_count': 0,
@@ -141,7 +157,10 @@ def scrape_urls_for_forms(urls, max_workers=5):
                 }
                 completed += 1
     
-    print(f"✅ Form detection completed! Processed {completed}/{len(urls)} URLs")
+    success_rate = (successful / len(urls)) * 100
+    print(f"✅ Form detection completed!")
+    print(f"   📊 Final Results: {completed}/{len(urls)} URLs processed")
+    print(f"   📊 Success Rate: {success_rate:.1f}% ({successful} successful)")
     return results
 
 def process_urls(urls, domain):
