@@ -7,7 +7,7 @@ URL PATTERN GROUPER ANALYSIS REPORT
 Customer: Southern Company Services
 Main Site URL: https://www.georgiapower.com
 Total Pages Analyzed: 808
-Analysis Date: 2025-07-10 22:27:57
+Analysis Date: 2025-07-10 23:06:44
 
 2. LOCALE ANALYSIS
 --------------------------------------------------
