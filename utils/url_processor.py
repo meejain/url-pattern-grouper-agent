@@ -101,7 +101,10 @@ def process_urls(urls, domain):
                     if "url" in instance and instance["url"] == url:
                         # Use only the name field
                         if "name" in block:
-                            template_details.append(block["name"])
+                            name = block["name"]
+                            # Skip "unknown" names and avoid duplicates
+                            if name != "unknown" and name not in template_details:
+                                template_details.append(name)
                         break
         return ', '.join(template_details)
 
