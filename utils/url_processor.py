@@ -145,9 +145,190 @@ def process_urls(urls, domain):
     # Get domain name from the originUrl
     output_filename = f"amsbasic-{domain}.xlsx"
 
-    # Save the result
-    os.makedirs('basic_scoping', exist_ok=True)
-    df.to_excel(f"basic_scoping/{output_filename}", index=False)
-    print(f"✅ Excel exported: basic_scoping/{output_filename}")
+    # Generate analysis report and get customer folder
+    report_filename, customer_folder = generate_analysis_report(df, domain, output_filename)
+    
+    # Save the Excel result to customer folder
+    excel_path = f"{customer_folder}/{output_filename}"
+    df.to_excel(excel_path, index=False)
+    print(f"✅ Excel exported: {excel_path}")
 
     return True
+
+def generate_analysis_report(df, domain, output_filename):
+    """Generate comprehensive analysis report from the DataFrame"""
+    from collections import defaultdict, Counter
+    import shutil
+    import json
+    
+    # Read customer name from site-urls.json
+    try:
+        with open('site-urls.json', 'r') as f:
+            site_data = json.load(f)
+        customer_name = site_data.get('customerName', 'Unknown Customer')
+    except Exception as e:
+        print(f"⚠️  Warning: Could not read customer name from site-urls.json: {e}")
+        customer_name = "Unknown Customer"
+    
+    # Create customer folder structure (remove existing if present)
+    customer_folder = f"basic_scoping/{customer_name}"
+    if os.path.exists(customer_folder):
+        shutil.rmtree(customer_folder)
+        print(f"🗑️  Removed existing folder: {customer_folder}")
+    os.makedirs(customer_folder, exist_ok=True)
+    print(f"📁 Created customer folder: {customer_folder}")
+    
+    # Create report filename in customer folder
+    report_filename = f"{customer_folder}/{output_filename.replace('.xlsx', '_analysis.txt')}"
+    
+    with open(report_filename, 'w') as f:
+        f.write("=" * 80 + "\n")
+        f.write("URL PATTERN GROUPER ANALYSIS REPORT\n")
+        f.write("=" * 80 + "\n\n")
+        
+        # 1. Main site URL and basic info
+        f.write("1. BASIC INFORMATION\n")
+        f.write("-" * 50 + "\n")
+        f.write(f"Customer: {customer_name}\n")
+        f.write(f"Main Site URL: https://{domain}\n")
+        f.write(f"Total Pages Analyzed: {len(df)}\n")
+        f.write(f"Analysis Date: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        
+        # 2. Locale Analysis
+        f.write("2. LOCALE ANALYSIS\n")
+        f.write("-" * 50 + "\n")
+        locale_counts = df['locale'].value_counts()
+        f.write(f"Total Locales: {len(locale_counts)}\n")
+        for locale, count in locale_counts.items():
+            percentage = (count / len(df)) * 100
+            f.write(f"  {locale.upper()}: {count} pages ({percentage:.1f}%)\n")
+        f.write("\n")
+        
+        # 3. Similar URL Pattern Analysis
+        f.write("3. SIMILAR URL PATTERN ANALYSIS\n")
+        f.write("-" * 50 + "\n")
+        group_counts = df['group'].value_counts()
+        grouped_pages = df[df['group'] != '']
+        ungrouped_pages = df[df['group'] == '']
+        
+        f.write(f"Total URL Patterns Created: {len(group_counts) - 1}\n")  # Exclude empty group
+        f.write(f"Grouped Pages: {len(grouped_pages)} ({(len(grouped_pages)/len(df))*100:.1f}%)\n")
+        f.write(f"Ungrouped Pages: {len(ungrouped_pages)} ({(len(ungrouped_pages)/len(df))*100:.1f}%)\n\n")
+        
+        # 4. Detailed URL Pattern Analysis with Templates
+        f.write("4. DETAILED URL PATTERN BREAKDOWN\n")
+        f.write("-" * 50 + "\n")
+        
+        # Track template combinations across groups
+        template_cross_group = defaultdict(list)
+        
+        for group in group_counts.index:
+            if group != '' and group_counts[group] >= 5:  # Only significant groups
+                group_data = df[df['group'] == group]
+                template_counts = group_data['template'].value_counts()
+                template_detail_counts = group_data['template_details'].value_counts()
+                
+                # Convert "Group 1" to "URL Pattern 1"
+                pattern_name = group.replace("Group", "URL Pattern")
+                f.write(f"\n{pattern_name}\n")
+                f.write(f"  Total Pages: {len(group_data)}\n")
+                f.write(f"  Template Groups:\n")
+                
+                for template, count in template_counts.items():
+                    if template != '':
+                        f.write(f"    {template}: {count} pages\n")
+                        template_cross_group[template].append((group, count))
+                
+                f.write(f"  Top Template Details:\n")
+                for details, count in template_detail_counts.head(3).items():
+                    if details and str(details) != 'nan':
+                        f.write(f"    \"{details}\": {count} pages\n")
+        
+        # 5. Cross-Pattern Template Analysis
+        f.write("\n\n5. CROSS-PATTERN TEMPLATE ANALYSIS\n")
+        f.write("-" * 50 + "\n")
+        f.write("Template groups appearing in multiple URL patterns with >5 pages:\n\n")
+        
+        cross_group_templates = []
+        for template, groups in template_cross_group.items():
+            if len(groups) > 1:  # Appears in multiple groups
+                total_pages = sum(count for _, count in groups)
+                if total_pages > 5:
+                    cross_group_templates.append((template, groups, total_pages))
+        
+        if cross_group_templates:
+            cross_group_templates.sort(key=lambda x: x[2], reverse=True)
+            for template, groups, total_pages in cross_group_templates:
+                f.write(f"{template} (Total: {total_pages} pages)\n")
+                for group, count in groups:
+                    pattern_name = group.replace("Group", "URL Pattern")
+                    f.write(f"  - {pattern_name}: {count} pages\n")
+                f.write(f"  INSIGHT: Pages with '{template}' template are similar across {len(groups)} URL patterns\n\n")
+        else:
+            f.write("No significant cross-pattern template patterns found.\n\n")
+        
+        # 6. Ungrouped Pages Analysis
+        f.write("6. UNGROUPED PAGES ANALYSIS\n")
+        f.write("-" * 50 + "\n")
+        f.write(f"Total Ungrouped Pages: {len(ungrouped_pages)}\n")
+        
+        if len(ungrouped_pages) > 0:
+            ungrouped_templates = ungrouped_pages['template'].value_counts()
+            ungrouped_template_details = ungrouped_pages['template_details'].value_counts()
+            
+            f.write(f"Template Groups in Ungrouped Pages:\n")
+            for template, count in ungrouped_templates.items():
+                if template != '':
+                    f.write(f"  {template}: {count} pages\n")
+            
+            f.write(f"\nUnique Template Combinations: {len(ungrouped_template_details)}\n")
+            f.write(f"Most Common Template Details in Ungrouped Pages:\n")
+            for details, count in ungrouped_template_details.head(5).items():
+                if details and str(details) != 'nan':
+                    f.write(f"  \"{details}\": {count} pages\n")
+        
+        # 7. Key Insights and Recommendations
+        f.write("\n\n7. KEY INSIGHTS & RECOMMENDATIONS\n")
+        f.write("-" * 50 + "\n")
+        
+        # Calculate insights
+        grouping_efficiency = (len(grouped_pages) / len(df)) * 100
+        avg_group_size = len(grouped_pages) / (len(group_counts) - 1) if len(group_counts) > 1 else 0
+        
+        f.write(f"• Grouping Efficiency: {grouping_efficiency:.1f}% of pages are grouped\n")
+        f.write(f"• Average Group Size: {avg_group_size:.1f} pages per group\n")
+        f.write(f"• Template Diversity: {len(df['template'].unique())} unique template types\n")
+        f.write(f"• Template Combination Diversity: {len(df['template_details'].unique())} unique combinations\n\n")
+        
+        if grouping_efficiency < 50:
+            f.write("⚠️  LOW GROUPING EFFICIENCY: Consider lowering the minimum group size threshold\n")
+        elif grouping_efficiency > 80:
+            f.write("✅ HIGH GROUPING EFFICIENCY: Excellent pattern recognition\n")
+        
+        if len(cross_group_templates) > 3:
+            f.write("🔄 HIGH TEMPLATE OVERLAP: Many similar templates across groups - consider template consolidation\n")
+        
+        if len(ungrouped_pages) > len(grouped_pages) * 0.5:
+            f.write("📊 HIGH UNGROUPED DIVERSITY: Many unique pages - good for content variation analysis\n")
+        
+        # Most common locales
+        primary_locale = locale_counts.index[0]
+        f.write(f"🌍 PRIMARY LOCALE: {primary_locale.upper()} ({locale_counts[primary_locale]} pages)\n")
+        
+        if len(locale_counts) > 1:
+            f.write(f"🌐 MULTILINGUAL SITE: {len(locale_counts)} locales detected\n")
+        
+        f.write("\n" + "=" * 80 + "\n")
+        f.write("END OF ANALYSIS REPORT\n")
+        f.write("=" * 80 + "\n")
+    
+    # Copy source JSON files to customer folder
+    try:
+        shutil.copy2("site-urls.json", f"{customer_folder}/site-urls.json")
+        shutil.copy2("inventory.json", f"{customer_folder}/inventory.json")
+        print(f"✅ Source files copied to customer folder")
+    except Exception as e:
+        print(f"⚠️  Warning: Could not copy source files: {e}")
+    
+    print(f"✅ Analysis report generated: {report_filename}")
+    return report_filename, customer_folder
