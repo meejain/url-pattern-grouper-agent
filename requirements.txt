@@ -2,3 +2,5 @@ anthropic
 pandas
 openpyxl
 PyGithub
+requests
+beautifulsoup4
