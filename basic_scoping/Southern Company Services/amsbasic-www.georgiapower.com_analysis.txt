@@ -1,0 +1,685 @@
+================================================================================
+URL PATTERN GROUPER ANALYSIS REPORT
+================================================================================
+
+1. BASIC INFORMATION
+--------------------------------------------------
+Customer: Southern Company Services
+Main Site URL: https://www.georgiapower.com
+Total Pages Analyzed: 808
+Analysis Date: 2025-07-11 00:42:52
+
+2. FORM DETECTION ANALYSIS
+--------------------------------------------------
+Total Pages Scraped: 808
+Successful Scrapes: 803 (99.4%)
+Failed Scrapes: 5 (0.6%)
+Pages with Forms: 803 (99.4%)
+Pages without Forms: 5 (0.6%)
+
+Form Types Distribution:
+  Search: 801 pages (99.8%)
+  Contact/Lead, Search: 1 pages (0.1%)
+  Other, Search: 1 pages (0.1%)
+
+Forms per Page Distribution:
+  2 forms: 797 pages (99.3%)
+  3 forms: 6 pages (0.7%)
+
+Scraping Status Breakdown:
+  Success: 803 pages (99.4%)
+  No forms found: 5 pages (0.6%)
+
+3. LOCALE ANALYSIS
+--------------------------------------------------
+Total Locales: 6
+  EN: 799 pages (98.9%)
+  ES: 5 pages (0.6%)
+  : 1 pages (0.1%)
+  HI: 1 pages (0.1%)
+  KO: 1 pages (0.1%)
+  VI: 1 pages (0.1%)
+
+4. SIMILAR URL PATTERN ANALYSIS
+--------------------------------------------------
+Total URL Patterns Created: 30
+Grouped Pages: 580 (71.8%)
+Ungrouped Pages: 228 (28.2%)
+
+5. DETAILED URL PATTERN BREAKDOWN
+--------------------------------------------------
+
+URL Pattern 1
+  Total Pages: 156
+  Template Groups:
+    Template 31: 140 pages
+    Template 91: 6 pages
+    Template 93: 3 pages
+    Template 92: 2 pages
+    Template 66: 2 pages
+    Template 94: 2 pages
+    Template 95: 1 pages
+  Top Template Details:
+    "header, Columns": 140 pages
+    "header, Columns, Embed (video)": 6 pages
+    "header, Columns, Cards (no images)": 3 pages
+
+URL Pattern 2
+  Total Pages: 118
+  Template Groups:
+    Template 31: 83 pages
+    Template 66: 11 pages
+    Template 93: 11 pages
+    Template 94: 10 pages
+    Template 91: 3 pages
+  Top Template Details:
+    "header, Columns": 83 pages
+    "header, Columns, Hero": 11 pages
+    "header, Columns, Cards (no images)": 11 pages
+
+URL Pattern 3
+  Total Pages: 55
+  Template Groups:
+    Template 31: 38 pages
+    Template 94: 7 pages
+    Template 91: 6 pages
+    Template 66: 3 pages
+    Template 93: 1 pages
+  Top Template Details:
+    "header, Columns": 38 pages
+    "header, Columns, Cards": 7 pages
+    "header, Columns, Embed (video)": 6 pages
+
+URL Pattern 4
+  Total Pages: 36
+  Template Groups:
+    Template 31: 32 pages
+    Template 94: 3 pages
+    Template 66: 1 pages
+  Top Template Details:
+    "header, Columns": 32 pages
+    "header, Columns, Cards": 3 pages
+    "header, Columns, Hero": 1 pages
+
+URL Pattern 5
+  Total Pages: 17
+  Template Groups:
+    Template 31: 7 pages
+    Template 53: 3 pages
+    Template 13: 2 pages
+    Template 6: 1 pages
+    Template 62: 1 pages
+    Template 61: 1 pages
+    Template 30: 1 pages
+    Template 40: 1 pages
+  Top Template Details:
+    "header, Columns": 7 pages
+    "header, Hero, Cards, Columns": 3 pages
+    "header, Hero, Columns": 2 pages
+
+URL Pattern 6
+  Total Pages: 13
+  Template Groups:
+    Template 103: 1 pages
+    Template 104: 1 pages
+    Template 105: 1 pages
+    Template 83: 1 pages
+    Template 106: 1 pages
+    Template 107: 1 pages
+    Template 108: 1 pages
+    Template 109: 1 pages
+    Template 110: 1 pages
+    Template 111: 1 pages
+    Template 82: 1 pages
+    Template 112: 1 pages
+    Template 13: 1 pages
+  Top Template Details:
+    "header, Hero, Columns, Cards (no images), Accordion, Table (no header), Table (striped & bordered)": 1 pages
+    "header, Hero, Columns, Embed (video), Tabs, Accordion, Cards (no images)": 1 pages
+    "header, Hero, Columns, Embed (video), Accordion, Embed (social), Cards (no images), Table (striped & bordered)": 1 pages
+
+URL Pattern 8
+  Total Pages: 13
+  Template Groups:
+    Template 31: 11 pages
+    Template 94: 1 pages
+    Template 91: 1 pages
+  Top Template Details:
+    "header, Columns": 11 pages
+    "header, Columns, Cards": 1 pages
+    "header, Columns, Embed (video)": 1 pages
+
+URL Pattern 7
+  Total Pages: 13
+  Template Groups:
+    Template 31: 12 pages
+    Template 66: 1 pages
+  Top Template Details:
+    "header, Columns": 12 pages
+    "header, Columns, Hero": 1 pages
+
+URL Pattern 10
+  Total Pages: 12
+  Template Groups:
+    Template 31: 10 pages
+    Template 66: 1 pages
+    Template 94: 1 pages
+  Top Template Details:
+    "header, Columns": 10 pages
+    "header, Columns, Hero": 1 pages
+    "header, Columns, Cards": 1 pages
+
+URL Pattern 9
+  Total Pages: 12
+  Template Groups:
+    Template 50: 2 pages
+    Template 53: 2 pages
+    Template 75: 2 pages
+    Template 97: 1 pages
+    Template 139: 1 pages
+    Template 64: 1 pages
+    Template 140: 1 pages
+    Template 81: 1 pages
+    Template 85: 1 pages
+  Top Template Details:
+    "header, Hero, Cards, Columns, Accordion": 2 pages
+    "header, Hero, Cards, Columns": 2 pages
+    "header, Hero, Cards, Columns, Embed (video)": 2 pages
+
+URL Pattern 11
+  Total Pages: 10
+  Template Groups:
+    Template 134: 1 pages
+    Template 18: 1 pages
+    Template 135: 1 pages
+    Template 136: 1 pages
+    Template 93: 1 pages
+    Template 137: 1 pages
+    Template 64: 1 pages
+    Template 50: 1 pages
+    Template 31: 1 pages
+    Template 138: 1 pages
+  Top Template Details:
+    "header, Cards, Columns, Hero": 1 pages
+    "header, Hero, Columns, Tabs, Cards, Accordion": 1 pages
+    "header, Hero, Columns, Tabs, Table (striped & bordered), Accordion": 1 pages
+
+URL Pattern 12
+  Total Pages: 9
+  Template Groups:
+    Template 77: 8 pages
+    Template 6: 1 pages
+  Top Template Details:
+    "header, Columns, Hero, Cards": 8 pages
+    "header, Hero, Columns, Cards": 1 pages
+
+URL Pattern 13
+  Total Pages: 9
+  Template Groups:
+    Template 12: 2 pages
+    Template 53: 2 pages
+    Template 13: 1 pages
+    Template 129: 1 pages
+    Template 74: 1 pages
+    Template 7: 1 pages
+    Template 6: 1 pages
+  Top Template Details:
+    "header, Hero, Columns, Embed (video), Cards": 2 pages
+    "header, Hero, Cards, Columns": 2 pages
+    "header, Hero, Columns": 1 pages
+
+URL Pattern 14
+  Total Pages: 8
+  Template Groups:
+    Template 13: 2 pages
+    Template 30: 2 pages
+    Template 35: 1 pages
+    Template 36: 1 pages
+    Template 37: 1 pages
+    Template 38: 1 pages
+  Top Template Details:
+    "header, Hero, Columns": 2 pages
+    "header, Hero, Columns, Accordion": 2 pages
+    "header, Hero, Columns, Embed (video), Accordion": 1 pages
+
+URL Pattern 15
+  Total Pages: 8
+  Template Groups:
+    Template 31: 4 pages
+    Template 94: 2 pages
+    Template 91: 1 pages
+    Template 93: 1 pages
+  Top Template Details:
+    "header, Columns": 4 pages
+    "header, Columns, Cards": 2 pages
+    "header, Columns, Embed (video)": 1 pages
+
+URL Pattern 16
+  Total Pages: 8
+  Template Groups:
+    Template 82: 2 pages
+    Template 83: 1 pages
+    Template 84: 1 pages
+    Template 45: 1 pages
+    Template 85: 1 pages
+    Template 86: 1 pages
+    Template 87: 1 pages
+  Top Template Details:
+    "header, Hero, Columns, Embed (video), Tabs, Cards (no images), Accordion": 2 pages
+    "header, Hero, Columns, Cards (no images), Tabs, Embed (video), Accordion": 1 pages
+    "header, Hero, Columns, Embed (video), Embed (social), Accordion, Cards, Cards (no images)": 1 pages
+
+URL Pattern 18
+  Total Pages: 7
+  Template Groups:
+    Template 13: 2 pages
+    Template 31: 1 pages
+    Template 6: 1 pages
+    Template 50: 1 pages
+    Template 17: 1 pages
+    Template 39: 1 pages
+  Top Template Details:
+    "header, Hero, Columns": 2 pages
+    "header, Columns": 1 pages
+    "header, Hero, Columns, Cards": 1 pages
+
+URL Pattern 17
+  Total Pages: 7
+  Template Groups:
+    Template 6: 2 pages
+    Template 8: 1 pages
+    Template 9: 1 pages
+    Template 14: 1 pages
+    Template 17: 1 pages
+    Template 18: 1 pages
+  Top Template Details:
+    "header, Hero, Columns, Cards": 2 pages
+    "header, Hero, Columns, Accordion, Table (striped & bordered)": 1 pages
+    "header, Hero, Columns, Cards, Accordion": 1 pages
+
+URL Pattern 20
+  Total Pages: 7
+  Template Groups:
+    Template 35: 1 pages
+    Template 30: 1 pages
+    Template 115: 1 pages
+    Template 116: 1 pages
+    Template 121: 1 pages
+    Template 122: 1 pages
+    Template 123: 1 pages
+  Top Template Details:
+    "header, Hero, Columns, Embed (video), Accordion": 1 pages
+    "header, Hero, Columns, Accordion": 1 pages
+    "header, Hero, Columns, Table (striped & bordered), Accordion": 1 pages
+
+URL Pattern 21
+  Total Pages: 7
+  Template Groups:
+    Template 53: 2 pages
+    Template 50: 1 pages
+    Template 6: 1 pages
+    Template 12: 1 pages
+    Template 58: 1 pages
+    Template 60: 1 pages
+  Top Template Details:
+    "header, Hero, Cards, Columns": 2 pages
+    "header, Hero, Cards, Columns, Accordion": 1 pages
+    "header, Hero, Columns, Cards": 1 pages
+
+URL Pattern 19
+  Total Pages: 7
+  Template Groups:
+    Template 81: 1 pages
+    Template 18: 1 pages
+    Template 6: 1 pages
+    Template 126: 1 pages
+    Template 141: 1 pages
+    Template 144: 1 pages
+    Template 53: 1 pages
+  Top Template Details:
+    "header, Hero, Cards, Columns, Embed (video), Accordion": 1 pages
+    "header, Hero, Columns, Tabs, Cards, Accordion": 1 pages
+    "header, Hero, Columns, Cards": 1 pages
+
+URL Pattern 22
+  Total Pages: 6
+  Template Groups:
+    Template 66: 4 pages
+    Template 93: 1 pages
+    Template 31: 1 pages
+  Top Template Details:
+    "header, Columns, Hero": 4 pages
+    "header, Columns, Cards (no images)": 1 pages
+    "header, Columns": 1 pages
+
+URL Pattern 23
+  Total Pages: 6
+  Template Groups:
+    Template 51: 1 pages
+    Template 9: 1 pages
+    Template 22: 1 pages
+    Template 6: 1 pages
+    Template 10: 1 pages
+    Template 53: 1 pages
+  Top Template Details:
+    "header, Hero, Columns, Video, Cards, Cards (no images)": 1 pages
+    "header, Hero, Columns, Cards, Accordion": 1 pages
+    "header, Hero, Columns, Cards (no images)": 1 pages
+
+URL Pattern 24
+  Total Pages: 6
+  Template Groups:
+    Template 13: 2 pages
+    Template 35: 1 pages
+    Template 30: 1 pages
+    Template 43: 1 pages
+    Template 6: 1 pages
+  Top Template Details:
+    "header, Hero, Columns": 2 pages
+    "header, Hero, Columns, Embed (video), Accordion": 1 pages
+    "header, Hero, Columns, Accordion": 1 pages
+
+URL Pattern 26
+  Total Pages: 5
+  Template Groups:
+    Template 22: 2 pages
+    Template 42: 1 pages
+    Template 9: 1 pages
+    Template 44: 1 pages
+  Top Template Details:
+    "header, Hero, Columns, Cards (no images)": 2 pages
+    "header, Hero, Columns, Cards (no images), Cards": 1 pages
+    "header, Hero, Columns, Cards, Accordion": 1 pages
+
+URL Pattern 25
+  Total Pages: 5
+  Template Groups:
+    Template 20: 1 pages
+    Template 29: 1 pages
+    Template 32: 1 pages
+    Template 33: 1 pages
+    Template 34: 1 pages
+  Top Template Details:
+    "header, Columns, Hero, Accordion": 1 pages
+    "header, Columns, Hero, Tabs, Accordion": 1 pages
+    "header, Columns, Hero, Tabs": 1 pages
+
+URL Pattern 27
+  Total Pages: 5
+  Template Groups:
+    Template 13: 3 pages
+    Template 30: 1 pages
+    Template 9: 1 pages
+  Top Template Details:
+    "header, Hero, Columns": 3 pages
+    "header, Hero, Columns, Accordion": 1 pages
+    "header, Hero, Columns, Cards, Accordion": 1 pages
+
+URL Pattern 28
+  Total Pages: 5
+  Template Groups:
+    Template 46: 1 pages
+    Template 50: 1 pages
+    Template 74: 1 pages
+    Template 75: 1 pages
+    Template 13: 1 pages
+  Top Template Details:
+    "header, Hero, Columns, Accordion, Embed (video)": 1 pages
+    "header, Hero, Cards, Columns, Accordion": 1 pages
+    "header, Hero, Columns, Carousel": 1 pages
+
+URL Pattern 29
+  Total Pages: 5
+  Template Groups:
+    Template 126: 2 pages
+    Template 131: 1 pages
+    Template 73: 1 pages
+    Template 132: 1 pages
+  Top Template Details:
+    "header, Cards, Hero, Columns": 2 pages
+    "header, Cards, Hero, Columns, Accordion": 1 pages
+    "header, Columns, Hero, Cards, Embed (video)": 1 pages
+
+URL Pattern 30
+  Total Pages: 5
+  Template Groups:
+    Template 24: 1 pages
+    Template 25: 1 pages
+    Template 26: 1 pages
+    Template 27: 1 pages
+    Template 28: 1 pages
+  Top Template Details:
+    "header, Table (striped & bordered), Hero, Columns, Tabs, Carousel, Embed (video)": 1 pages
+    "header, Table (striped & bordered), Hero, Columns, Tabs": 1 pages
+    "header, Table (striped & bordered), Hero, Columns, Tabs, Accordion": 1 pages
+
+
+6. CROSS-PATTERN TEMPLATE ANALYSIS
+--------------------------------------------------
+Template groups appearing in multiple URL patterns with >5 pages:
+
+Template 31 (Total: 340 pages)
+  - URL Pattern 1: 140 pages
+  - URL Pattern 2: 83 pages
+  - URL Pattern 3: 38 pages
+  - URL Pattern 4: 32 pages
+  - URL Pattern 5: 7 pages
+  - URL Pattern 8: 11 pages
+  - URL Pattern 7: 12 pages
+  - URL Pattern 10: 10 pages
+  - URL Pattern 11: 1 pages
+  - URL Pattern 15: 4 pages
+  - URL Pattern 18: 1 pages
+  - URL Pattern 22: 1 pages
+  INSIGHT: Pages with 'Template 31' template are similar across 12 URL patterns
+
+Template 94 (Total: 26 pages)
+  - URL Pattern 1: 2 pages
+  - URL Pattern 2: 10 pages
+  - URL Pattern 3: 7 pages
+  - URL Pattern 4: 3 pages
+  - URL Pattern 8: 1 pages
+  - URL Pattern 10: 1 pages
+  - URL Pattern 15: 2 pages
+  INSIGHT: Pages with 'Template 94' template are similar across 7 URL patterns
+
+Template 66 (Total: 23 pages)
+  - URL Pattern 1: 2 pages
+  - URL Pattern 2: 11 pages
+  - URL Pattern 3: 3 pages
+  - URL Pattern 4: 1 pages
+  - URL Pattern 7: 1 pages
+  - URL Pattern 10: 1 pages
+  - URL Pattern 22: 4 pages
+  INSIGHT: Pages with 'Template 66' template are similar across 7 URL patterns
+
+Template 93 (Total: 18 pages)
+  - URL Pattern 1: 3 pages
+  - URL Pattern 2: 11 pages
+  - URL Pattern 3: 1 pages
+  - URL Pattern 11: 1 pages
+  - URL Pattern 15: 1 pages
+  - URL Pattern 22: 1 pages
+  INSIGHT: Pages with 'Template 93' template are similar across 6 URL patterns
+
+Template 91 (Total: 17 pages)
+  - URL Pattern 1: 6 pages
+  - URL Pattern 2: 3 pages
+  - URL Pattern 3: 6 pages
+  - URL Pattern 8: 1 pages
+  - URL Pattern 15: 1 pages
+  INSIGHT: Pages with 'Template 91' template are similar across 5 URL patterns
+
+Template 13 (Total: 14 pages)
+  - URL Pattern 5: 2 pages
+  - URL Pattern 6: 1 pages
+  - URL Pattern 13: 1 pages
+  - URL Pattern 14: 2 pages
+  - URL Pattern 18: 2 pages
+  - URL Pattern 24: 2 pages
+  - URL Pattern 27: 3 pages
+  - URL Pattern 28: 1 pages
+  INSIGHT: Pages with 'Template 13' template are similar across 8 URL patterns
+
+Template 53 (Total: 11 pages)
+  - URL Pattern 5: 3 pages
+  - URL Pattern 9: 2 pages
+  - URL Pattern 13: 2 pages
+  - URL Pattern 21: 2 pages
+  - URL Pattern 19: 1 pages
+  - URL Pattern 23: 1 pages
+  INSIGHT: Pages with 'Template 53' template are similar across 6 URL patterns
+
+Template 6 (Total: 10 pages)
+  - URL Pattern 5: 1 pages
+  - URL Pattern 12: 1 pages
+  - URL Pattern 13: 1 pages
+  - URL Pattern 18: 1 pages
+  - URL Pattern 17: 2 pages
+  - URL Pattern 21: 1 pages
+  - URL Pattern 19: 1 pages
+  - URL Pattern 23: 1 pages
+  - URL Pattern 24: 1 pages
+  INSIGHT: Pages with 'Template 6' template are similar across 9 URL patterns
+
+Template 30 (Total: 6 pages)
+  - URL Pattern 5: 1 pages
+  - URL Pattern 14: 2 pages
+  - URL Pattern 20: 1 pages
+  - URL Pattern 24: 1 pages
+  - URL Pattern 27: 1 pages
+  INSIGHT: Pages with 'Template 30' template are similar across 5 URL patterns
+
+Template 50 (Total: 6 pages)
+  - URL Pattern 9: 2 pages
+  - URL Pattern 11: 1 pages
+  - URL Pattern 18: 1 pages
+  - URL Pattern 21: 1 pages
+  - URL Pattern 28: 1 pages
+  INSIGHT: Pages with 'Template 50' template are similar across 5 URL patterns
+
+7. UNGROUPED PAGES ANALYSIS
+--------------------------------------------------
+Total Ungrouped Pages: 228
+Template Groups in Ungrouped Pages:
+  Template 13: 40 pages
+  Template 6: 15 pages
+  Template 53: 12 pages
+  Template 31: 11 pages
+  Template 30: 10 pages
+  Template 7: 7 pages
+  Template 22: 6 pages
+  Template 9: 6 pages
+  Template 35: 5 pages
+  Template 50: 5 pages
+  Template 11: 4 pages
+  Template 66: 4 pages
+  Template 12: 3 pages
+  Template 40: 3 pages
+  Template 38: 3 pages
+  Template 64: 3 pages
+  Template 59: 2 pages
+  Template 36: 2 pages
+  Template 68: 2 pages
+  Template 46: 2 pages
+  Template 126: 2 pages
+  Template 81: 2 pages
+  Template 77: 2 pages
+  Template 72: 2 pages
+  Template 39: 2 pages
+  Template 10: 2 pages
+  Template 4: 2 pages
+  Template 97: 2 pages
+  Template 19: 1 pages
+  Template 16: 1 pages
+  Template 15: 1 pages
+  Template 49: 1 pages
+  Template 48: 1 pages
+  Template 47: 1 pages
+  Template 45: 1 pages
+  Template 41: 1 pages
+  Template 21: 1 pages
+  Template 23: 1 pages
+  Template 20: 1 pages
+  Template 5: 1 pages
+  Template 1: 1 pages
+  Template 2: 1 pages
+  Template 3: 1 pages
+  Template 65: 1 pages
+  Template 56: 1 pages
+  Template 57: 1 pages
+  Template 55: 1 pages
+  Template 69: 1 pages
+  Template 67: 1 pages
+  Template 63: 1 pages
+  Template 70: 1 pages
+  Template 71: 1 pages
+  Template 73: 1 pages
+  Template 76: 1 pages
+  Template 18: 1 pages
+  Template 42: 1 pages
+  Template 78: 1 pages
+  Template 79: 1 pages
+  Template 80: 1 pages
+  Template 88: 1 pages
+  Template 54: 1 pages
+  Template 52: 1 pages
+  Template 90: 1 pages
+  Template 89: 1 pages
+  Template 8: 1 pages
+  Template 96: 1 pages
+  Template 99: 1 pages
+  Template 100: 1 pages
+  Template 101: 1 pages
+  Template 98: 1 pages
+  Template 113: 1 pages
+  Template 114: 1 pages
+  Template 117: 1 pages
+  Template 118: 1 pages
+  Template 119: 1 pages
+  Template 120: 1 pages
+  Template 124: 1 pages
+  Template 102: 1 pages
+  Template 125: 1 pages
+  Template 75: 1 pages
+  Template 128: 1 pages
+  Template 127: 1 pages
+  Template 130: 1 pages
+  Template 116: 1 pages
+  Template 133: 1 pages
+  Template 94: 1 pages
+  Template 62: 1 pages
+  Template 142: 1 pages
+  Template 143: 1 pages
+  Template 121: 1 pages
+  Template 17: 1 pages
+  Template 145: 1 pages
+  Template 146: 1 pages
+  Template 147: 1 pages
+
+Unique Template Combinations: 95
+Most Common Template Details in Ungrouped Pages:
+  "header, Hero, Columns": 40 pages
+  "header, Hero, Columns, Cards": 15 pages
+  "header, Hero, Cards, Columns": 12 pages
+  "header, Columns": 11 pages
+  "header, Hero, Columns, Accordion": 10 pages
+
+
+8. KEY INSIGHTS & RECOMMENDATIONS
+--------------------------------------------------
+• Grouping Efficiency: 71.8% of pages are grouped
+• Average Group Size: 19.3 pages per group
+• Template Diversity: 148 unique template types
+• Template Combination Diversity: 148 unique combinations
+• Form Coverage: 99.4% of pages have forms
+• Scraping Success Rate: 99.4%
+
+🔄 HIGH TEMPLATE OVERLAP: Many similar templates across groups - consider template consolidation
+🌍 PRIMARY LOCALE: EN (799 pages)
+🌐 MULTILINGUAL SITE: 6 locales detected
+📝 HIGH FORM COVERAGE: 99.4% of pages have forms - excellent for lead generation
+
+================================================================================
+END OF ANALYSIS REPORT
+================================================================================
