@@ -14,8 +14,8 @@ import warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 warnings.filterwarnings('ignore', message='Unverified HTTPS request')
 
-def scrape_url_for_forms(url, timeout=8):
-    """Scrape a URL to detect form elements and gather form information"""
+def scrape_url_for_content(url, timeout=8):
+    """Scrape a URL to detect forms and iframes and gather their information"""
     try:
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -31,16 +31,26 @@ def scrape_url_for_forms(url, timeout=8):
         
         soup = BeautifulSoup(response.content, 'html.parser')
         forms = soup.find_all('form')
+        iframes = soup.find_all('iframe')
         
-        if not forms:
+        # If neither forms nor iframes found
+        if not forms and not iframes:
             return {
                 'has_forms': False,
                 'form_count': 0,
                 'form_types': '',
                 'form_details': '',
-                'status': 'No forms found'
+                'has_iframes': False,
+                'iframe_count': 0,
+                'iframe_sources': '',
+                'iframe_details': '',
+                'iframe_forms_count': 0,
+                'iframe_with_forms_count': 0,
+                'iframe_forms_details': '',
+                'status': 'No forms or iframes found'
             }
         
+        # Process forms
         form_details = []
         form_types = set()
         
@@ -74,11 +84,94 @@ def scrape_url_for_forms(url, timeout=8):
             
             form_details.append(form_detail)
         
+        # Process iframes and check for forms within them
+        iframe_details = []
+        iframe_sources = set()
+        iframe_forms_found = 0
+        iframe_with_forms = []
+        
+        for iframe in iframes:
+            src = iframe.get('src', '')
+            iframe_id = iframe.get('id', '')
+            title = iframe.get('title', '')
+            width = iframe.get('width', '')
+            height = iframe.get('height', '')
+            
+            # Check if iframe URL contains forms
+            iframe_has_forms = False
+            if src:
+                # Normalize URL for iframe scraping
+                iframe_url = src
+                if src.startswith('//'):
+                    iframe_url = 'https:' + src
+                elif src.startswith('/'):
+                    # Relative URL - construct full URL from main page
+                    from urllib.parse import urljoin
+                    iframe_url = urljoin(url, src)
+                
+                # Only scrape iframe if it's a valid HTTP(S) URL and not a data URL
+                if iframe_url.startswith(('http://', 'https://')) and 'data:' not in iframe_url:
+                    try:
+                        # Quick check for forms in iframe (shorter timeout)
+                        iframe_response = requests.get(iframe_url, headers=headers, timeout=5, verify=False, allow_redirects=True)
+                        iframe_response.raise_for_status()
+                        iframe_soup = BeautifulSoup(iframe_response.content, 'html.parser')
+                        iframe_forms = iframe_soup.find_all('form')
+                        if iframe_forms:
+                            iframe_has_forms = True
+                            iframe_forms_found += len(iframe_forms)
+                            iframe_with_forms.append({
+                                'url': iframe_url,
+                                'form_count': len(iframe_forms),
+                                'iframe_id': iframe_id or 'no-id'
+                            })
+                    except:
+                        # Silently fail if iframe can't be scraped
+                        pass
+            
+            # Categorize iframe sources
+            if src:
+                if 'youtube' in src.lower() or 'vimeo' in src.lower():
+                    iframe_sources.add('Video')
+                elif 'google' in src.lower() and 'maps' in src.lower():
+                    iframe_sources.add('Maps')
+                elif 'facebook' in src.lower() or 'twitter' in src.lower() or 'instagram' in src.lower():
+                    iframe_sources.add('Social Media')
+                elif 'recaptcha' in src.lower():
+                    iframe_sources.add('reCAPTCHA')
+                elif src.startswith('//') or src.startswith('http'):
+                    iframe_sources.add('External Content')
+                else:
+                    iframe_sources.add('Internal Content')
+            else:
+                iframe_sources.add('No Source')
+            
+            iframe_detail = f"iframe"
+            if src:
+                iframe_detail += f" (src: {src[:50]}{'...' if len(src) > 50 else ''})"
+            if iframe_id:
+                iframe_detail += f" (id: {iframe_id})"
+            if title:
+                iframe_detail += f" (title: {title[:30]}{'...' if len(title) > 30 else ''})"
+            if width and height:
+                iframe_detail += f" ({width}x{height})"
+            if iframe_has_forms:
+                iframe_detail += " [FORMS DETECTED]"
+            
+            iframe_details.append(iframe_detail)
+        
         return {
-            'has_forms': True,
+            'has_forms': len(forms) > 0,
             'form_count': len(forms),
-            'form_types': ', '.join(sorted(form_types)),
-            'form_details': ' | '.join(form_details),
+            'form_types': ', '.join(sorted(form_types)) if form_types else '',
+            'form_details': ' | '.join(form_details) if form_details else '',
+            'has_iframes': len(iframes) > 0,
+            'iframe_count': len(iframes),
+            'iframe_sources': ', '.join(sorted(iframe_sources)) if iframe_sources else '',
+            'iframe_details': ' | '.join(iframe_details) if iframe_details else '',
+            'iframe_forms_count': iframe_forms_found,
+            'iframe_with_forms_count': len(iframe_with_forms),
+            'iframe_forms_details': ' | '.join([f"{item['url']} ({item['form_count']} forms)" for item in iframe_with_forms]) if iframe_with_forms else '',
             'status': 'Success'
         }
         
@@ -88,6 +181,13 @@ def scrape_url_for_forms(url, timeout=8):
             'form_count': 0,
             'form_types': '',
             'form_details': '',
+            'has_iframes': False,
+            'iframe_count': 0,
+            'iframe_sources': '',
+            'iframe_details': '',
+            'iframe_forms_count': 0,
+            'iframe_with_forms_count': 0,
+            'iframe_forms_details': '',
             'status': 'Timeout'
         }
     except requests.exceptions.ConnectionError:
@@ -96,6 +196,13 @@ def scrape_url_for_forms(url, timeout=8):
             'form_count': 0,
             'form_types': '',
             'form_details': '',
+            'has_iframes': False,
+            'iframe_count': 0,
+            'iframe_sources': '',
+            'iframe_details': '',
+            'iframe_forms_count': 0,
+            'iframe_with_forms_count': 0,
+            'iframe_forms_details': '',
             'status': 'Connection Error'
         }
     except requests.exceptions.HTTPError as e:
@@ -104,6 +211,13 @@ def scrape_url_for_forms(url, timeout=8):
             'form_count': 0,
             'form_types': '',
             'form_details': '',
+            'has_iframes': False,
+            'iframe_count': 0,
+            'iframe_sources': '',
+            'iframe_details': '',
+            'iframe_forms_count': 0,
+            'iframe_with_forms_count': 0,
+            'iframe_forms_details': '',
             'status': f'HTTP {e.response.status_code}'
         }
     except Exception as e:
@@ -112,12 +226,19 @@ def scrape_url_for_forms(url, timeout=8):
             'form_count': 0,
             'form_types': '',
             'form_details': '',
+            'has_iframes': False,
+            'iframe_count': 0,
+            'iframe_sources': '',
+            'iframe_details': '',
+            'iframe_forms_count': 0,
+            'iframe_with_forms_count': 0,
+            'iframe_forms_details': '',
             'status': f'Error: {str(e)[:50]}'
         }
 
-def scrape_urls_for_forms(urls, max_workers=3):
-    """Scrape multiple URLs for forms using threading"""
-    print(f"🕷️  Starting form detection for {len(urls)} URLs...")
+def scrape_urls_for_content(urls, max_workers=3):
+    """Scrape multiple URLs for forms and iframes using threading"""
+    print(f"🕷️  Starting form and iframe detection for {len(urls)} URLs...")
     print(f"   Using {max_workers} concurrent workers with rate limiting...")
     
     results = {}
@@ -126,7 +247,7 @@ def scrape_urls_for_forms(urls, max_workers=3):
     
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all scraping tasks
-        future_to_url = {executor.submit(scrape_url_for_forms, url): url for url in urls}
+        future_to_url = {executor.submit(scrape_url_for_content, url): url for url in urls}
         
         # Process completed tasks
         for future in as_completed(future_to_url):
@@ -153,12 +274,19 @@ def scrape_urls_for_forms(urls, max_workers=3):
                     'form_count': 0,
                     'form_types': '',
                     'form_details': '',
+                    'has_iframes': False,
+                    'iframe_count': 0,
+                    'iframe_sources': '',
+                    'iframe_details': '',
+                    'iframe_forms_count': 0,
+                    'iframe_with_forms_count': 0,
+                    'iframe_forms_details': '',
                     'status': 'Processing Error'
                 }
                 completed += 1
     
     success_rate = (successful / len(urls)) * 100
-    print(f"✅ Form detection completed!")
+    print(f"✅ Form and iframe detection completed!")
     print(f"   📊 Final Results: {completed}/{len(urls)} URLs processed")
     print(f"   📊 Success Rate: {success_rate:.1f}% ({successful} successful)")
     return results
@@ -172,15 +300,22 @@ def process_urls(urls, domain):
     # Create initial dataframe
     urls_df = pd.DataFrame(urls)
 
-    # Scrape URLs for form detection
-    form_results = scrape_urls_for_forms(urls_df['url'].tolist())
+    # Scrape URLs for form and iframe detection
+    content_results = scrape_urls_for_content(urls_df['url'].tolist())
     
-    # Add form detection results to dataframe
-    urls_df['has_forms'] = urls_df['url'].map(lambda x: form_results.get(x, {}).get('has_forms', False))
-    urls_df['form_count'] = urls_df['url'].map(lambda x: form_results.get(x, {}).get('form_count', 0))
-    urls_df['form_types'] = urls_df['url'].map(lambda x: form_results.get(x, {}).get('form_types', ''))
-    urls_df['form_details'] = urls_df['url'].map(lambda x: form_results.get(x, {}).get('form_details', ''))
-    urls_df['scrape_status'] = urls_df['url'].map(lambda x: form_results.get(x, {}).get('status', 'Not processed'))
+    # Add form and iframe detection results to dataframe
+    urls_df['has_forms'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('has_forms', False))
+    urls_df['form_count'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('form_count', 0))
+    urls_df['form_types'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('form_types', ''))
+    urls_df['form_details'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('form_details', ''))
+    urls_df['has_iframes'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('has_iframes', False))
+    urls_df['iframe_count'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('iframe_count', 0))
+    urls_df['iframe_sources'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('iframe_sources', ''))
+    urls_df['iframe_details'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('iframe_details', ''))
+    urls_df['iframe_forms_count'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('iframe_forms_count', 0))
+    urls_df['iframe_with_forms_count'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('iframe_with_forms_count', 0))
+    urls_df['iframe_forms_details'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('iframe_forms_details', ''))
+    urls_df['scrape_status'] = urls_df['url'].map(lambda x: content_results.get(x, {}).get('status', 'Not processed'))
 
     # Function to get path segments for grouping
     def get_path_segments(url):
@@ -296,9 +431,11 @@ def process_urls(urls, domain):
     # Assign template names to URLs
     urls_df['template'] = urls_df['template_details'].map(lambda x: template_mapping.get(x, ''))
 
-    # Create final dataframe with required columns including form data
+    # Create final dataframe with required columns including form and iframe data
     df = urls_df[['url', 'source', 'group', 'locale', 'template', 'template_details', 
-                  'has_forms', 'form_count', 'form_types', 'form_details', 'scrape_status']]
+                  'has_forms', 'form_count', 'form_types', 'form_details', 
+                  'has_iframes', 'iframe_count', 'iframe_sources', 'iframe_details',
+                  'iframe_forms_count', 'iframe_with_forms_count', 'iframe_forms_details', 'scrape_status']]
 
     # Add numeric group index for sorting (999999 for empty groups to put them at end)
     df['group_index'] = df['group'].map(lambda x: group_index_mapping.get(x, 999999))
@@ -309,9 +446,11 @@ def process_urls(urls, domain):
     # Then sort by group index (1,2,3...) and maintain URL order
     df = df.sort_values(['group_index', 'url'], ascending=[True, True])
 
-    # Remove helper columns but keep form data
+    # Remove helper columns but keep form and iframe data
     df = df[['url', 'source', 'group', 'locale', 'template', 'template_details', 
-             'has_forms', 'form_count', 'form_types', 'form_details', 'scrape_status']]
+             'has_forms', 'form_count', 'form_types', 'form_details', 
+             'has_iframes', 'iframe_count', 'iframe_sources', 'iframe_details',
+             'iframe_forms_count', 'iframe_with_forms_count', 'iframe_forms_details', 'scrape_status']]
 
     # Get domain name from the originUrl
     output_filename = f"amsbasic-{domain}.xlsx"
@@ -365,44 +504,78 @@ def generate_analysis_report(df, domain, output_filename):
         f.write(f"Total Pages Analyzed: {len(df)}\n")
         f.write(f"Analysis Date: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         
-        # 2. Form Analysis
-        f.write("2. FORM DETECTION ANALYSIS\n")
+        # 2. Form and Iframe Analysis
+        f.write("2. FORM & IFRAME DETECTION ANALYSIS\n")
         f.write("-" * 50 + "\n")
-        form_stats = {
+        content_stats = {
             'total_pages': len(df),
             'pages_with_forms': len(df[df['has_forms'] == True]),
             'pages_without_forms': len(df[df['has_forms'] == False]),
+            'pages_with_iframes': len(df[df['has_iframes'] == True]),
+            'pages_without_iframes': len(df[df['has_iframes'] == False]),
+            'pages_with_iframe_forms': len(df[df['iframe_forms_count'] > 0]),
+            'total_iframe_forms': df['iframe_forms_count'].sum(),
+            'pages_with_both': len(df[(df['has_forms'] == True) & (df['has_iframes'] == True)]),
+            'pages_with_neither': len(df[(df['has_forms'] == False) & (df['has_iframes'] == False)]),
             'successful_scrapes': len(df[df['scrape_status'] == 'Success']),
             'failed_scrapes': len(df[df['scrape_status'] != 'Success'])
         }
         
-        f.write(f"Total Pages Scraped: {form_stats['total_pages']}\n")
-        f.write(f"Successful Scrapes: {form_stats['successful_scrapes']} ({(form_stats['successful_scrapes']/form_stats['total_pages'])*100:.1f}%)\n")
-        f.write(f"Failed Scrapes: {form_stats['failed_scrapes']} ({(form_stats['failed_scrapes']/form_stats['total_pages'])*100:.1f}%)\n")
-        f.write(f"Pages with Forms: {form_stats['pages_with_forms']} ({(form_stats['pages_with_forms']/form_stats['total_pages'])*100:.1f}%)\n")
-        f.write(f"Pages without Forms: {form_stats['pages_without_forms']} ({(form_stats['pages_without_forms']/form_stats['total_pages'])*100:.1f}%)\n\n")
+        f.write(f"Total Pages Scraped: {content_stats['total_pages']}\n")
+        f.write(f"Successful Scrapes: {content_stats['successful_scrapes']} ({(content_stats['successful_scrapes']/content_stats['total_pages'])*100:.1f}%)\n")
+        f.write(f"Failed Scrapes: {content_stats['failed_scrapes']} ({(content_stats['failed_scrapes']/content_stats['total_pages'])*100:.1f}%)\n\n")
+        
+        f.write("FORM ANALYSIS:\n")
+        f.write(f"Pages with Forms: {content_stats['pages_with_forms']} ({(content_stats['pages_with_forms']/content_stats['total_pages'])*100:.1f}%)\n")
+        f.write(f"Pages without Forms: {content_stats['pages_without_forms']} ({(content_stats['pages_without_forms']/content_stats['total_pages'])*100:.1f}%)\n\n")
+        
+        f.write("IFRAME ANALYSIS:\n")
+        f.write(f"Pages with Iframes: {content_stats['pages_with_iframes']} ({(content_stats['pages_with_iframes']/content_stats['total_pages'])*100:.1f}%)\n")
+        f.write(f"Pages without Iframes: {content_stats['pages_without_iframes']} ({(content_stats['pages_without_iframes']/content_stats['total_pages'])*100:.1f}%)\n")
+        f.write(f"Pages with Forms in Iframes: {content_stats['pages_with_iframe_forms']} ({(content_stats['pages_with_iframe_forms']/content_stats['total_pages'])*100:.1f}%)\n")
+        f.write(f"Total Forms Found in Iframes: {content_stats['total_iframe_forms']}\n\n")
+        
+        f.write("COMBINED ANALYSIS:\n")
+        f.write(f"Pages with Both Forms & Iframes: {content_stats['pages_with_both']} ({(content_stats['pages_with_both']/content_stats['total_pages'])*100:.1f}%)\n")
+        f.write(f"Pages with Neither Forms nor Iframes: {content_stats['pages_with_neither']} ({(content_stats['pages_with_neither']/content_stats['total_pages'])*100:.1f}%)\n\n")
         
         # Form type analysis
-        if form_stats['pages_with_forms'] > 0:
+        if content_stats['pages_with_forms'] > 0:
             form_types_analysis = df[df['has_forms'] == True]['form_types'].value_counts()
             f.write("Form Types Distribution:\n")
             for form_type, count in form_types_analysis.head(10).items():
                 if form_type:
-                    percentage = (count / form_stats['pages_with_forms']) * 100
+                    percentage = (count / content_stats['pages_with_forms']) * 100
                     f.write(f"  {form_type}: {count} pages ({percentage:.1f}%)\n")
             
             # Form count analysis
             form_count_analysis = df[df['has_forms'] == True]['form_count'].value_counts().sort_index()
             f.write(f"\nForms per Page Distribution:\n")
             for count, pages in form_count_analysis.items():
-                percentage = (pages / form_stats['pages_with_forms']) * 100
+                percentage = (pages / content_stats['pages_with_forms']) * 100
                 f.write(f"  {count} form{'s' if count != 1 else ''}: {pages} pages ({percentage:.1f}%)\n")
+        
+        # Iframe type analysis
+        if content_stats['pages_with_iframes'] > 0:
+            iframe_sources_analysis = df[df['has_iframes'] == True]['iframe_sources'].value_counts()
+            f.write(f"\nIframe Sources Distribution:\n")
+            for iframe_source, count in iframe_sources_analysis.head(10).items():
+                if iframe_source:
+                    percentage = (count / content_stats['pages_with_iframes']) * 100
+                    f.write(f"  {iframe_source}: {count} pages ({percentage:.1f}%)\n")
+            
+            # Iframe count analysis
+            iframe_count_analysis = df[df['has_iframes'] == True]['iframe_count'].value_counts().sort_index()
+            f.write(f"\nIframes per Page Distribution:\n")
+            for count, pages in iframe_count_analysis.items():
+                percentage = (pages / content_stats['pages_with_iframes']) * 100
+                f.write(f"  {count} iframe{'s' if count != 1 else ''}: {pages} pages ({percentage:.1f}%)\n")
         
         # Scraping status analysis
         status_analysis = df['scrape_status'].value_counts()
         f.write(f"\nScraping Status Breakdown:\n")
         for status, count in status_analysis.items():
-            percentage = (count / form_stats['total_pages']) * 100
+            percentage = (count / content_stats['total_pages']) * 100
             f.write(f"  {status}: {count} pages ({percentage:.1f}%)\n")
         f.write("\n")
         
@@ -511,8 +684,11 @@ def generate_analysis_report(df, domain, output_filename):
         f.write(f"• Average Group Size: {avg_group_size:.1f} pages per group\n")
         f.write(f"• Template Diversity: {len(df['template'].unique())} unique template types\n")
         f.write(f"• Template Combination Diversity: {len(df['template_details'].unique())} unique combinations\n")
-        f.write(f"• Form Coverage: {(form_stats['pages_with_forms']/len(df))*100:.1f}% of pages have forms\n")
-        f.write(f"• Scraping Success Rate: {(form_stats['successful_scrapes']/len(df))*100:.1f}%\n\n")
+        f.write(f"• Form Coverage: {(content_stats['pages_with_forms']/len(df))*100:.1f}% of pages have forms\n")
+        f.write(f"• Iframe Coverage: {(content_stats['pages_with_iframes']/len(df))*100:.1f}% of pages have iframes\n")
+        f.write(f"• Iframe Forms Coverage: {(content_stats['pages_with_iframe_forms']/len(df))*100:.1f}% of pages have forms within iframes\n")
+        f.write(f"• Total Iframe Forms: {content_stats['total_iframe_forms']} forms found within iframes\n")
+        f.write(f"• Scraping Success Rate: {(content_stats['successful_scrapes']/len(df))*100:.1f}%\n\n")
         
         if grouping_efficiency < 50:
             f.write("⚠️  LOW GROUPING EFFICIENCY: Consider lowering the minimum group size threshold\n")
@@ -532,9 +708,9 @@ def generate_analysis_report(df, domain, output_filename):
         if len(locale_counts) > 1:
             f.write(f"🌐 MULTILINGUAL SITE: {len(locale_counts)} locales detected\n")
         
-        # Form-specific insights
-        if form_stats['pages_with_forms'] > 0:
-            form_conversion_rate = (form_stats['pages_with_forms'] / len(df)) * 100
+        # Content-specific insights
+        if content_stats['pages_with_forms'] > 0:
+            form_conversion_rate = (content_stats['pages_with_forms'] / len(df)) * 100
             if form_conversion_rate > 20:
                 f.write(f"📝 HIGH FORM COVERAGE: {form_conversion_rate:.1f}% of pages have forms - excellent for lead generation\n")
             elif form_conversion_rate < 5:
@@ -542,8 +718,24 @@ def generate_analysis_report(df, domain, output_filename):
             else:
                 f.write(f"📝 MODERATE FORM COVERAGE: {form_conversion_rate:.1f}% of pages have forms\n")
         
-        if form_stats['failed_scrapes'] > len(df) * 0.1:
-            f.write(f"⚠️  HIGH SCRAPING FAILURE RATE: {(form_stats['failed_scrapes']/len(df))*100:.1f}% failed - check site accessibility\n")
+        if content_stats['pages_with_iframes'] > 0:
+            iframe_coverage_rate = (content_stats['pages_with_iframes'] / len(df)) * 100
+            if iframe_coverage_rate > 30:
+                f.write(f"🖼️  HIGH IFRAME USAGE: {iframe_coverage_rate:.1f}% of pages have iframes - rich content integration\n")
+            elif iframe_coverage_rate < 10:
+                f.write(f"🖼️  LOW IFRAME USAGE: Only {iframe_coverage_rate:.1f}% of pages have iframes\n")
+            else:
+                f.write(f"🖼️  MODERATE IFRAME USAGE: {iframe_coverage_rate:.1f}% of pages have iframes\n")
+        
+        if content_stats['pages_with_iframe_forms'] > 0:
+            iframe_form_rate = (content_stats['pages_with_iframe_forms'] / len(df)) * 100
+            if iframe_form_rate > 10:
+                f.write(f"📝 HIGH IFRAME FORM USAGE: {iframe_form_rate:.1f}% of pages have forms within iframes - embedded conversion opportunities\n")
+            elif iframe_form_rate > 0:
+                f.write(f"📝 IFRAME FORMS DETECTED: {iframe_form_rate:.1f}% of pages have forms within iframes ({content_stats['total_iframe_forms']} total forms)\n")
+        
+        if content_stats['failed_scrapes'] > len(df) * 0.1:
+            f.write(f"⚠️  HIGH SCRAPING FAILURE RATE: {(content_stats['failed_scrapes']/len(df))*100:.1f}% failed - check site accessibility\n")
         
         f.write("\n" + "=" * 80 + "\n")
         f.write("END OF ANALYSIS REPORT\n")
