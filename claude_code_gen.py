@@ -23,41 +23,64 @@ def generate_code(prompt, context_vars=None):
     full_prompt = f"""
 You are a helpful Python agent. {context_vars_str}
 
-I have a working implementation in claude_agent.py that processes URLs correctly. I need you to convert this working code into a proper function format.
+I have a working implementation in claude_agent.py that processes URLs correctly. I need you to create a comprehensive URL processing function that includes advanced form and iframe detection.
 
 Here's the working implementation from claude_agent.py:
 
 {claude_agent_code}
 
 Your task:
-1. Extract the core URL processing logic from the claude_agent.py file
-2. Convert it into a function called `process_urls(urls, domain)` that:
+1. Create a function called `process_urls(urls, domain)` that:
    - Takes a list of URL dictionaries and domain string as parameters
    - Returns True on success
-   - Saves the Excel file as 'basic_scoping/amsbasic-{{domain}}.xlsx'
-3. Include all necessary imports at the top
-4. Keep the exact same logic for pattern matching, grouping, sorting, and locale detection
-5. Make sure to handle the input parameters correctly
+   - Implements comprehensive form and iframe detection with multithreading
+   - Creates customer folder structure dynamically
+   - Generates both Excel output and detailed analysis report
+   - Copies source files to customer folder
 
-IMPORTANT MODIFICATIONS:
-- Add a 'source' column to the final DataFrame (should be positioned right after the 'url' column)
-- Add a 'template' column to the final DataFrame (should be positioned after the 'locale' column)
-- The source data is available in each URL dictionary as 'source' field
-- Final DataFrame should have columns in this order: ['url', 'source', 'group', 'locale', 'template']
-- Remove ALL helper columns (like 'group_index', 'pattern', etc.) from the final output
-- Only keep the 5 main columns: url, source, group, locale, template
-- Keep all other logic exactly the same
+2. Include all necessary imports:
+   - requests, beautifulsoup4 for web scraping
+   - concurrent.futures for multithreading
+   - urllib3, warnings for SSL handling
+   - pandas, json, os, shutil for data processing
+   - pathlib for file operations
 
-TEMPLATE IDENTIFICATION (NEW REQUIREMENT):
-- Load inventory.json file which contains a "blocks" section
-- Each block has a "target" field with a list of URLs where that block is used
-- For each URL in the dataset:
-  * Find all blocks where this URL appears in the "target" list
-  * Collect the names/IDs of all such blocks
-  * Group URLs that have the same set of block names into templates
-  * Assign template names like 'Template 1', 'Template 2', etc.
-  * URLs with identical block combinations get the same template name
-- This identifies URLs with similar layouts/structure based on shared blocks
+3. Core functionality requirements:
+   - URL pattern matching and grouping (5+ URLs with same pattern)
+   - Template identification from inventory.json using block names
+   - Locale detection (en, es, hi, ko, vi)
+   - Form detection and categorization
+   - Iframe detection (only those containing forms)
+   - Multithreaded scraping with proper error handling
+   - Comprehensive analysis report generation
+
+4. Advanced scraping capabilities:
+   - Detect and categorize forms: Search, Login/Registration, Newsletter, Contact/Lead, Other
+   - Detect iframes but only track those containing forms
+   - Check iframe source URLs for form content
+   - Categorize iframe sources: Video, Maps, Social Media, reCAPTCHA, External Content, Internal Content
+   - Handle SSL warnings and connection errors gracefully
+   - Use ThreadPoolExecutor with max 5 concurrent workers
+
+5. Dynamic customer folder structure:
+   - Read customerName from site-urls.json
+   - Create basic_scoping/{{customerName}}/ folder
+   - Remove existing customer folder if exists
+   - Save all outputs to customer folder
+
+6. Output requirements:
+   - Excel file with 18 columns including form/iframe data
+   - Comprehensive analysis report with insights
+   - Copy source JSON files to customer folder
+   - Progress tracking during scraping
+
+IMPORTANT MODIFICATIONS FROM OLD VERSION:
+- Use block["name"] field for template_details, filter out "unknown" names
+- Only track iframes that contain forms - ignore all other iframes
+- Generate both Excel and comprehensive analysis report
+- Create dynamic customer folder structure
+- Handle errors gracefully with proper status tracking
+- Suppress SSL warnings for scraping
 
 CRITICAL FIXES:
 - Use `df['url'].apply(extract_locale)` NOT `df[['url']].apply(extract_locale, axis=1)`
@@ -65,18 +88,17 @@ CRITICAL FIXES:
 - Make sure to remove helper columns like 'group_index' before saving to Excel
 
 IMPORTANT: 
-- Use the EXACT same logic from claude_agent.py - don't change the algorithms
-- Just wrap it in a function format and add the source column
-- Make sure to remove all helper columns before saving to Excel
 - Respond ONLY with the raw Python code, no explanations or markdown
-- The function should process the URLs and save to Excel, then return True
+- The function should process URLs, scrape content, and generate comprehensive outputs
+- Include proper error handling and progress tracking
+- Use the exact DataFrame column structure as specified in the requirements
 
 User instruction: {prompt}
 """
     
     message = client.messages.create(
-        model="claude-3-haiku-20240307",
-        max_tokens=4000,
+        model="claude-3-5-sonnet-20241022",
+        max_tokens=8000,
         temperature=0,
         messages=[
             {"role": "user", "content": full_prompt}
@@ -159,24 +181,71 @@ def main():
         "targetPath": "Target path",
         "id": "Unique identifier",
         "template": "Template name based on block instances (e.g., 'Template 1', 'Template 2', etc.)",
-        "template_details": "Comma-separated list of all block target values where this URL appears as an instance"
+        "template_details": "Comma-separated list of all block target values where this URL appears as an instance",
+        "has_forms": "Boolean indicating if the page contains forms",
+        "form_count": "Number of forms found on the page", 
+        "form_types": "Types of forms found (Search, Login/Registration, Newsletter, Contact/Lead, Other)",
+        "form_details": "Detailed information about each form found",
+        "has_iframes": "Boolean indicating if the page contains iframes with forms",
+        "iframe_count": "Number of iframes containing forms",
+        "iframe_sources": "Types of iframe sources (Video, Maps, Social Media, reCAPTCHA, External Content, Internal Content)",
+        "iframe_details": "Detailed information about each iframe containing forms",
+        "iframe_forms_count": "Total number of forms found within iframes",
+        "iframe_with_forms_count": "Number of iframes that contain forms",
+        "iframe_forms_details": "Detailed information about forms found within iframes",
+        "scrape_status": "Status of the scraping attempt (Success, Timeout, Error, etc.)"
     }
     
     processor_path = 'utils/url_processor.py'
     
     # Skip code generation if the file already exists
     if not os.path.exists(processor_path):
-        prompt = """Process the URLs with these specific requirements:
+        prompt = """Process the URLs with these comprehensive requirements:
 
-1. Create a DataFrame with six columns:
+1. DEPENDENCIES AND SETUP:
+   - Import required libraries: requests, beautifulsoup4, pandas, json, os, urllib3, warnings
+   - Import concurrent.futures for multithreading
+   - Suppress SSL warnings: urllib3.disable_warnings() and warnings.filterwarnings('ignore')
+   - Create customer folder structure based on customerName from site-urls.json
+   - Use shutil for file operations
+
+2. FORM AND IFRAME DETECTION:
+   - Scrape each URL to detect forms and iframes using multithreaded approach (5 concurrent workers)
+   - Use proper headers and error handling with timeouts
+   - FORM DETECTION: Find all <form> elements and categorize them:
+     * Search: forms with search-related inputs
+     * Login/Registration: forms with email/password inputs
+     * Newsletter: forms with email input and ≤3 total inputs
+     * Contact/Lead: forms with ≥4 inputs
+     * Other: all other forms
+   - IFRAME DETECTION: Find all <iframe> elements but ONLY track those containing forms
+     * Scrape each iframe's src URL to check for forms
+     * Only count/categorize iframes that have forms in their content
+     * Categorize iframe sources: Video, Maps, Social Media, reCAPTCHA, External Content, Internal Content
+     * Track forms found within iframes separately
+
+3. DATAFRAME CREATION:
+   Create a DataFrame with these columns (in order):
    - 'url': The complete URL
    - 'source': Source of the URL (from the source field)
    - 'group': The group name (e.g., 'Group 1', 'Group 2', etc.) or empty string if no group assigned
    - 'locale': The detected language code (e.g., 'en', 'es', 'ko', 'vi', 'hi') with 'en' as default
    - 'template': Template name based on block instances (e.g., 'Template 1', 'Template 2', etc.)
    - 'template_details': Comma-separated list of all block names where this URL appears as an instance
+   - 'has_forms': Boolean indicating if the page contains forms
+   - 'form_count': Number of forms found on the page
+   - 'form_types': Types of forms found (comma-separated)
+   - 'form_details': Detailed information about each form found
+   - 'has_iframes': Boolean indicating if the page contains iframes with forms
+   - 'iframe_count': Number of iframes containing forms
+   - 'iframe_sources': Types of iframe sources (comma-separated)
+   - 'iframe_details': Detailed information about each iframe containing forms
+   - 'iframe_forms_count': Total number of forms found within iframes
+   - 'iframe_with_forms_count': Number of iframes that contain forms
+   - 'iframe_forms_details': Detailed information about forms found within iframes
+   - 'scrape_status': Status of the scraping attempt (Success, Timeout, Error, etc.)
 
-2. Pattern Matching and Grouping Rules:
+4. PATTERN MATCHING AND GROUPING RULES:
    - Split each URL into path segments (parts between slashes)
    - For each URL, create its pattern by joining all its path segments
    - Count how many URLs share each pattern
@@ -189,54 +258,66 @@ def main():
      * Assign all matching URLs to this group
    - URLs that don't have 5 or more matches should have an empty string as their group
 
-3. Template Identification Rules (NEW):
+5. TEMPLATE IDENTIFICATION RULES:
    - Load the inventory.json file which contains a "blocks" section
    - Each block has an "instances" array containing objects with "url" field
-   - Each block also has a "target" field with the complete target name (e.g., "carousel (vertical)")
+   - Each block has a "name" field (use this for template_details, NOT "target")
+   - Filter out blocks with name "unknown"
    - For each URL in the dataset:
      * Find all blocks where this URL appears in the "instances" array
-     * Collect the "target" field values (NOT the "name" field) of all such blocks
-     * Store these target values as comma-separated string in 'template_details' column
-     * Group URLs that have the same set of target values into templates
+     * Collect the "name" field values of all such blocks (excluding "unknown")
+     * Store these names as comma-separated string in 'template_details' column
+     * Group URLs that have the same set of names into templates
      * Assign template names like 'Template 1', 'Template 2', etc.
-     * URLs with the same combination of target values get the same template name
+     * URLs with the same combination of names get the same template name
    - This identifies URLs with similar layouts/structure
 
-4. Sorting Rules:
+6. SORTING RULES:
    - Homepage (shortest URL) at the top
    - Then group all URLs with assigned groups together
    - Within each group and for ungrouped URLs, sort alphabetically
 
-5. Locale Detection Rules:
+7. LOCALE DETECTION RULES:
    - Check for 2-letter language codes in the URL path
    - Look for codes at the start of path or as standalone segments
    - Support formats like '/es/', '/ko.html', or '/vi'
    - Default to 'en' if no other locale is detected
    - Currently supported locales: en, es, hi, ko, vi
 
-6. Output Format:
-   - Save as Excel file named 'amsbasic-{domain}.xlsx' where domain is extracted from the originUrl
-   - File should be saved in the 'basic_scoping' directory
-   - Final DataFrame should have columns: ['url', 'source', 'group', 'locale', 'template', 'template_details']
+8. CUSTOMER FOLDER STRUCTURE:
+   - Read customerName from site-urls.json dynamically
+   - Create folder: basic_scoping/{customerName}/
+   - Remove existing customer folder if it exists
+   - Save all outputs to customer folder
+
+9. OUTPUT FORMAT:
+   - Save as Excel file named 'amsbasic-{domain}.xlsx' in customer folder
+   - Generate comprehensive analysis report as '{domain}_analysis_report.txt' in customer folder
+   - Copy source files (site-urls.json, inventory.json) to customer folder
+   - Analysis report should include:
+     * Site information and page counts
+     * Form and iframe detection analysis (only iframes with forms)
+     * Locale analysis breakdown
+     * URL pattern analysis with template details
+     * Cross-pattern template analysis
+     * Ungrouped pages analysis
+     * Key insights and recommendations
    - Do not include index column in the Excel file
 
-Example:
-If these URLs share identical path segments:
-  domain.com/api/v1/users/list
-  domain.com/api/v1/users/list?page=1
-  domain.com/api/v1/users/list?page=2
-  domain.com/api/v1/users/list?page=3
-  domain.com/api/v1/users/list?page=4
-They should be grouped together as they share the pattern 'api/v1/users/list'
+10. MULTITHREADING AND PERFORMANCE:
+    - Use ThreadPoolExecutor with max 5 concurrent workers for URL scraping
+    - Implement proper error handling and timeouts
+    - Show progress during scraping
+    - Handle SSL/certificate errors gracefully
 
-Template Example:
-If URL1 appears in blocks with targets: ['header (main)', 'footer (standard)', 'sidebar (left)']
-And URL2 also appears in blocks with targets: ['header (main)', 'footer (standard)', 'sidebar (left)']
-Then both get assigned 'Template 1' and template_details: 'header (main), footer (standard), sidebar (left)'
-If URL3 appears in blocks with targets: ['header (main)', 'footer (standard)', 'content (article)']
-Then URL3 gets assigned 'Template 2' and template_details: 'header (main), footer (standard), content (article)'
-
-CRITICAL: Use block["target"] field, NOT block["name"] field for template_details column!"""
+CRITICAL REQUIREMENTS:
+- Use block["name"] field for template_details, filter out "unknown" names
+- Only track iframes that contain forms - ignore all other iframes
+- Use proper multithreading for URL scraping
+- Generate both Excel and comprehensive analysis report
+- Create dynamic customer folder structure
+- Handle errors gracefully with proper status tracking
+- Suppress SSL warnings for scraping"""
         
         # Generate and save the code
         code = generate_code(prompt, context_vars)
