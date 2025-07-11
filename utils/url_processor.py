@@ -3,6 +3,165 @@ import json
 import pandas as pd
 from urllib.parse import urlparse
 import os
+import requests
+from bs4 import BeautifulSoup
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import urllib3
+import warnings
+
+# Suppress SSL warnings
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+warnings.filterwarnings('ignore', message='Unverified HTTPS request')
+
+def scrape_url_for_forms(url, timeout=8):
+    """Scrape a URL to detect form elements and gather form information"""
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+        }
+        
+        response = requests.get(url, headers=headers, timeout=timeout, verify=False, allow_redirects=True)
+        response.raise_for_status()
+        
+        soup = BeautifulSoup(response.content, 'html.parser')
+        forms = soup.find_all('form')
+        
+        if not forms:
+            return {
+                'has_forms': False,
+                'form_count': 0,
+                'form_types': '',
+                'form_details': '',
+                'status': 'No forms found'
+            }
+        
+        form_details = []
+        form_types = set()
+        
+        for form in forms:
+            method = form.get('method', 'GET').upper()
+            action = form.get('action', '')
+            form_id = form.get('id', '')
+            form_class = form.get('class', '')
+            
+            # Count input types
+            inputs = form.find_all(['input', 'textarea', 'select'])
+            input_types = [inp.get('type', 'text') for inp in form.find_all('input')]
+            
+            # Determine form type based on inputs and attributes
+            if 'search' in str(form).lower() or any('search' in str(inp).lower() for inp in inputs):
+                form_types.add('Search')
+            elif any(inp_type in ['email', 'password'] for inp_type in input_types):
+                form_types.add('Login/Registration')
+            elif any(inp_type in ['email'] for inp_type in input_types) and len(inputs) <= 3:
+                form_types.add('Newsletter')
+            elif len(inputs) >= 4:
+                form_types.add('Contact/Lead')
+            else:
+                form_types.add('Other')
+            
+            form_detail = f"{method} form"
+            if action:
+                form_detail += f" (action: {action[:50]}{'...' if len(action) > 50 else ''})"
+            if form_id:
+                form_detail += f" (id: {form_id})"
+            
+            form_details.append(form_detail)
+        
+        return {
+            'has_forms': True,
+            'form_count': len(forms),
+            'form_types': ', '.join(sorted(form_types)),
+            'form_details': ' | '.join(form_details),
+            'status': 'Success'
+        }
+        
+    except requests.exceptions.Timeout:
+        return {
+            'has_forms': False,
+            'form_count': 0,
+            'form_types': '',
+            'form_details': '',
+            'status': 'Timeout'
+        }
+    except requests.exceptions.ConnectionError:
+        return {
+            'has_forms': False,
+            'form_count': 0,
+            'form_types': '',
+            'form_details': '',
+            'status': 'Connection Error'
+        }
+    except requests.exceptions.HTTPError as e:
+        return {
+            'has_forms': False,
+            'form_count': 0,
+            'form_types': '',
+            'form_details': '',
+            'status': f'HTTP {e.response.status_code}'
+        }
+    except Exception as e:
+        return {
+            'has_forms': False,
+            'form_count': 0,
+            'form_types': '',
+            'form_details': '',
+            'status': f'Error: {str(e)[:50]}'
+        }
+
+def scrape_urls_for_forms(urls, max_workers=3):
+    """Scrape multiple URLs for forms using threading"""
+    print(f"🕷️  Starting form detection for {len(urls)} URLs...")
+    print(f"   Using {max_workers} concurrent workers with rate limiting...")
+    
+    results = {}
+    completed = 0
+    successful = 0
+    
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Submit all scraping tasks
+        future_to_url = {executor.submit(scrape_url_for_forms, url): url for url in urls}
+        
+        # Process completed tasks
+        for future in as_completed(future_to_url):
+            url = future_to_url[future]
+            try:
+                result = future.result()
+                results[url] = result
+                completed += 1
+                
+                if result['status'] == 'Success':
+                    successful += 1
+                
+                # Progress update every 25 URLs
+                if completed % 25 == 0:
+                    success_rate = (successful / completed) * 100
+                    print(f"  📊 Progress: {completed}/{len(urls)} URLs ({success_rate:.1f}% success rate)")
+                    
+                # Rate limiting - small delay between requests
+                time.sleep(0.05)
+                
+            except Exception as e:
+                results[url] = {
+                    'has_forms': False,
+                    'form_count': 0,
+                    'form_types': '',
+                    'form_details': '',
+                    'status': 'Processing Error'
+                }
+                completed += 1
+    
+    success_rate = (successful / len(urls)) * 100
+    print(f"✅ Form detection completed!")
+    print(f"   📊 Final Results: {completed}/{len(urls)} URLs processed")
+    print(f"   📊 Success Rate: {success_rate:.1f}% ({successful} successful)")
+    return results
 
 def process_urls(urls, domain):
     # Load inventory.json
@@ -12,6 +171,16 @@ def process_urls(urls, domain):
 
     # Create initial dataframe
     urls_df = pd.DataFrame(urls)
+
+    # Scrape URLs for form detection
+    form_results = scrape_urls_for_forms(urls_df['url'].tolist())
+    
+    # Add form detection results to dataframe
+    urls_df['has_forms'] = urls_df['url'].map(lambda x: form_results.get(x, {}).get('has_forms', False))
+    urls_df['form_count'] = urls_df['url'].map(lambda x: form_results.get(x, {}).get('form_count', 0))
+    urls_df['form_types'] = urls_df['url'].map(lambda x: form_results.get(x, {}).get('form_types', ''))
+    urls_df['form_details'] = urls_df['url'].map(lambda x: form_results.get(x, {}).get('form_details', ''))
+    urls_df['scrape_status'] = urls_df['url'].map(lambda x: form_results.get(x, {}).get('status', 'Not processed'))
 
     # Function to get path segments for grouping
     def get_path_segments(url):
@@ -127,8 +296,9 @@ def process_urls(urls, domain):
     # Assign template names to URLs
     urls_df['template'] = urls_df['template_details'].map(lambda x: template_mapping.get(x, ''))
 
-    # Create final dataframe with required columns
-    df = urls_df[['url', 'source', 'group', 'locale', 'template', 'template_details']]
+    # Create final dataframe with required columns including form data
+    df = urls_df[['url', 'source', 'group', 'locale', 'template', 'template_details', 
+                  'has_forms', 'form_count', 'form_types', 'form_details', 'scrape_status']]
 
     # Add numeric group index for sorting (999999 for empty groups to put them at end)
     df['group_index'] = df['group'].map(lambda x: group_index_mapping.get(x, 999999))
@@ -139,8 +309,9 @@ def process_urls(urls, domain):
     # Then sort by group index (1,2,3...) and maintain URL order
     df = df.sort_values(['group_index', 'url'], ascending=[True, True])
 
-    # Remove helper columns
-    df = df[['url', 'source', 'group', 'locale', 'template', 'template_details']]
+    # Remove helper columns but keep form data
+    df = df[['url', 'source', 'group', 'locale', 'template', 'template_details', 
+             'has_forms', 'form_count', 'form_types', 'form_details', 'scrape_status']]
 
     # Get domain name from the originUrl
     output_filename = f"amsbasic-{domain}.xlsx"
@@ -194,8 +365,49 @@ def generate_analysis_report(df, domain, output_filename):
         f.write(f"Total Pages Analyzed: {len(df)}\n")
         f.write(f"Analysis Date: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
         
-        # 2. Locale Analysis
-        f.write("2. LOCALE ANALYSIS\n")
+        # 2. Form Analysis
+        f.write("2. FORM DETECTION ANALYSIS\n")
+        f.write("-" * 50 + "\n")
+        form_stats = {
+            'total_pages': len(df),
+            'pages_with_forms': len(df[df['has_forms'] == True]),
+            'pages_without_forms': len(df[df['has_forms'] == False]),
+            'successful_scrapes': len(df[df['scrape_status'] == 'Success']),
+            'failed_scrapes': len(df[df['scrape_status'] != 'Success'])
+        }
+        
+        f.write(f"Total Pages Scraped: {form_stats['total_pages']}\n")
+        f.write(f"Successful Scrapes: {form_stats['successful_scrapes']} ({(form_stats['successful_scrapes']/form_stats['total_pages'])*100:.1f}%)\n")
+        f.write(f"Failed Scrapes: {form_stats['failed_scrapes']} ({(form_stats['failed_scrapes']/form_stats['total_pages'])*100:.1f}%)\n")
+        f.write(f"Pages with Forms: {form_stats['pages_with_forms']} ({(form_stats['pages_with_forms']/form_stats['total_pages'])*100:.1f}%)\n")
+        f.write(f"Pages without Forms: {form_stats['pages_without_forms']} ({(form_stats['pages_without_forms']/form_stats['total_pages'])*100:.1f}%)\n\n")
+        
+        # Form type analysis
+        if form_stats['pages_with_forms'] > 0:
+            form_types_analysis = df[df['has_forms'] == True]['form_types'].value_counts()
+            f.write("Form Types Distribution:\n")
+            for form_type, count in form_types_analysis.head(10).items():
+                if form_type:
+                    percentage = (count / form_stats['pages_with_forms']) * 100
+                    f.write(f"  {form_type}: {count} pages ({percentage:.1f}%)\n")
+            
+            # Form count analysis
+            form_count_analysis = df[df['has_forms'] == True]['form_count'].value_counts().sort_index()
+            f.write(f"\nForms per Page Distribution:\n")
+            for count, pages in form_count_analysis.items():
+                percentage = (pages / form_stats['pages_with_forms']) * 100
+                f.write(f"  {count} form{'s' if count != 1 else ''}: {pages} pages ({percentage:.1f}%)\n")
+        
+        # Scraping status analysis
+        status_analysis = df['scrape_status'].value_counts()
+        f.write(f"\nScraping Status Breakdown:\n")
+        for status, count in status_analysis.items():
+            percentage = (count / form_stats['total_pages']) * 100
+            f.write(f"  {status}: {count} pages ({percentage:.1f}%)\n")
+        f.write("\n")
+        
+        # 3. Locale Analysis
+        f.write("3. LOCALE ANALYSIS\n")
         f.write("-" * 50 + "\n")
         locale_counts = df['locale'].value_counts()
         f.write(f"Total Locales: {len(locale_counts)}\n")
@@ -204,8 +416,8 @@ def generate_analysis_report(df, domain, output_filename):
             f.write(f"  {locale.upper()}: {count} pages ({percentage:.1f}%)\n")
         f.write("\n")
         
-        # 3. Similar URL Pattern Analysis
-        f.write("3. SIMILAR URL PATTERN ANALYSIS\n")
+        # 4. Similar URL Pattern Analysis
+        f.write("4. SIMILAR URL PATTERN ANALYSIS\n")
         f.write("-" * 50 + "\n")
         group_counts = df['group'].value_counts()
         grouped_pages = df[df['group'] != '']
@@ -215,8 +427,8 @@ def generate_analysis_report(df, domain, output_filename):
         f.write(f"Grouped Pages: {len(grouped_pages)} ({(len(grouped_pages)/len(df))*100:.1f}%)\n")
         f.write(f"Ungrouped Pages: {len(ungrouped_pages)} ({(len(ungrouped_pages)/len(df))*100:.1f}%)\n\n")
         
-        # 4. Detailed URL Pattern Analysis with Templates
-        f.write("4. DETAILED URL PATTERN BREAKDOWN\n")
+        # 5. Detailed URL Pattern Analysis with Templates
+        f.write("5. DETAILED URL PATTERN BREAKDOWN\n")
         f.write("-" * 50 + "\n")
         
         # Track template combinations across groups
@@ -244,8 +456,8 @@ def generate_analysis_report(df, domain, output_filename):
                     if details and str(details) != 'nan':
                         f.write(f"    \"{details}\": {count} pages\n")
         
-        # 5. Cross-Pattern Template Analysis
-        f.write("\n\n5. CROSS-PATTERN TEMPLATE ANALYSIS\n")
+        # 6. Cross-Pattern Template Analysis
+        f.write("\n\n6. CROSS-PATTERN TEMPLATE ANALYSIS\n")
         f.write("-" * 50 + "\n")
         f.write("Template groups appearing in multiple URL patterns with >5 pages:\n\n")
         
@@ -267,8 +479,8 @@ def generate_analysis_report(df, domain, output_filename):
         else:
             f.write("No significant cross-pattern template patterns found.\n\n")
         
-        # 6. Ungrouped Pages Analysis
-        f.write("6. UNGROUPED PAGES ANALYSIS\n")
+        # 7. Ungrouped Pages Analysis
+        f.write("7. UNGROUPED PAGES ANALYSIS\n")
         f.write("-" * 50 + "\n")
         f.write(f"Total Ungrouped Pages: {len(ungrouped_pages)}\n")
         
@@ -287,8 +499,8 @@ def generate_analysis_report(df, domain, output_filename):
                 if details and str(details) != 'nan':
                     f.write(f"  \"{details}\": {count} pages\n")
         
-        # 7. Key Insights and Recommendations
-        f.write("\n\n7. KEY INSIGHTS & RECOMMENDATIONS\n")
+        # 8. Key Insights and Recommendations
+        f.write("\n\n8. KEY INSIGHTS & RECOMMENDATIONS\n")
         f.write("-" * 50 + "\n")
         
         # Calculate insights
@@ -298,7 +510,9 @@ def generate_analysis_report(df, domain, output_filename):
         f.write(f"• Grouping Efficiency: {grouping_efficiency:.1f}% of pages are grouped\n")
         f.write(f"• Average Group Size: {avg_group_size:.1f} pages per group\n")
         f.write(f"• Template Diversity: {len(df['template'].unique())} unique template types\n")
-        f.write(f"• Template Combination Diversity: {len(df['template_details'].unique())} unique combinations\n\n")
+        f.write(f"• Template Combination Diversity: {len(df['template_details'].unique())} unique combinations\n")
+        f.write(f"• Form Coverage: {(form_stats['pages_with_forms']/len(df))*100:.1f}% of pages have forms\n")
+        f.write(f"• Scraping Success Rate: {(form_stats['successful_scrapes']/len(df))*100:.1f}%\n\n")
         
         if grouping_efficiency < 50:
             f.write("⚠️  LOW GROUPING EFFICIENCY: Consider lowering the minimum group size threshold\n")
@@ -317,6 +531,19 @@ def generate_analysis_report(df, domain, output_filename):
         
         if len(locale_counts) > 1:
             f.write(f"🌐 MULTILINGUAL SITE: {len(locale_counts)} locales detected\n")
+        
+        # Form-specific insights
+        if form_stats['pages_with_forms'] > 0:
+            form_conversion_rate = (form_stats['pages_with_forms'] / len(df)) * 100
+            if form_conversion_rate > 20:
+                f.write(f"📝 HIGH FORM COVERAGE: {form_conversion_rate:.1f}% of pages have forms - excellent for lead generation\n")
+            elif form_conversion_rate < 5:
+                f.write(f"📝 LOW FORM COVERAGE: Only {form_conversion_rate:.1f}% of pages have forms - consider adding more conversion opportunities\n")
+            else:
+                f.write(f"📝 MODERATE FORM COVERAGE: {form_conversion_rate:.1f}% of pages have forms\n")
+        
+        if form_stats['failed_scrapes'] > len(df) * 0.1:
+            f.write(f"⚠️  HIGH SCRAPING FAILURE RATE: {(form_stats['failed_scrapes']/len(df))*100:.1f}% failed - check site accessibility\n")
         
         f.write("\n" + "=" * 80 + "\n")
         f.write("END OF ANALYSIS REPORT\n")
