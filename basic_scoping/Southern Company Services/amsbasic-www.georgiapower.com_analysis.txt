@@ -7,15 +7,27 @@ URL PATTERN GROUPER ANALYSIS REPORT
 Customer: Southern Company Services
 Main Site URL: https://www.georgiapower.com
 Total Pages Analyzed: 808
-Analysis Date: 2025-07-11 00:42:52
+Analysis Date: 2025-07-11 21:17:01
 
-2. FORM DETECTION ANALYSIS
+2. FORM & IFRAME DETECTION ANALYSIS
 --------------------------------------------------
 Total Pages Scraped: 808
-Successful Scrapes: 803 (99.4%)
-Failed Scrapes: 5 (0.6%)
+Successful Scrapes: 804 (99.5%)
+Failed Scrapes: 4 (0.5%)
+
+FORM ANALYSIS:
 Pages with Forms: 803 (99.4%)
 Pages without Forms: 5 (0.6%)
+
+IFRAME ANALYSIS:
+Pages with Iframes: 804 (99.5%)
+Pages without Iframes: 4 (0.5%)
+Pages with Forms in Iframes: 9 (1.1%)
+Total Forms Found in Iframes: 10
+
+COMBINED ANALYSIS:
+Pages with Both Forms & Iframes: 803 (99.4%)
+Pages with Neither Forms nor Iframes: 4 (0.5%)
 
 Form Types Distribution:
   Search: 801 pages (99.8%)
@@ -26,9 +38,25 @@ Forms per Page Distribution:
   2 forms: 797 pages (99.3%)
   3 forms: 6 pages (0.7%)
 
+Iframe Sources Distribution:
+  External Content: 769 pages (95.6%)
+  External Content, Video: 34 pages (4.2%)
+  External Content, Maps: 1 pages (0.1%)
+
+Iframes per Page Distribution:
+  1 iframe: 685 pages (85.2%)
+  2 iframes: 103 pages (12.8%)
+  3 iframes: 9 pages (1.1%)
+  4 iframes: 1 pages (0.1%)
+  5 iframes: 1 pages (0.1%)
+  6 iframes: 2 pages (0.2%)
+  9 iframes: 1 pages (0.1%)
+  10 iframes: 1 pages (0.1%)
+  12 iframes: 1 pages (0.1%)
+
 Scraping Status Breakdown:
-  Success: 803 pages (99.4%)
-  No forms found: 5 pages (0.6%)
+  Success: 804 pages (99.5%)
+  No forms or iframes found: 4 pages (0.5%)
 
 3. LOCALE ANALYSIS
 --------------------------------------------------
@@ -673,12 +701,17 @@ Most Common Template Details in Ungrouped Pages:
 • Template Diversity: 148 unique template types
 • Template Combination Diversity: 148 unique combinations
 • Form Coverage: 99.4% of pages have forms
-• Scraping Success Rate: 99.4%
+• Iframe Coverage: 99.5% of pages have iframes
+• Iframe Forms Coverage: 1.1% of pages have forms within iframes
+• Total Iframe Forms: 10 forms found within iframes
+• Scraping Success Rate: 99.5%
 
 🔄 HIGH TEMPLATE OVERLAP: Many similar templates across groups - consider template consolidation
 🌍 PRIMARY LOCALE: EN (799 pages)
 🌐 MULTILINGUAL SITE: 6 locales detected
 📝 HIGH FORM COVERAGE: 99.4% of pages have forms - excellent for lead generation
+🖼️  HIGH IFRAME USAGE: 99.5% of pages have iframes - rich content integration
+📝 IFRAME FORMS DETECTED: 1.1% of pages have forms within iframes (10 total forms)
 
 ================================================================================
 END OF ANALYSIS REPORT
